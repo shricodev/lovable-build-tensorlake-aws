@@ -22,7 +22,9 @@
     "agent:run": "pnpm --filter @kiln/worker agent:run",
     "dev": "turbo run dev --filter=@kiln/web --filter=@kiln/worker --filter=@kiln/gateway",
     "db:migrate": "pnpm --filter @kiln/db db:migrate",
-    "db:generate": "pnpm --filter @kiln/db db:generate"
+    "db:generate": "pnpm --filter @kiln/db db:generate",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "eval": "pnpm --filter @kiln/worker eval"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -6,3 +6,4 @@ export { and, asc, desc, eq, gt, inArray, isNotNull, isNull, lt, ne, or, sql } f
 export * from "./governor";
 export * from "./jobs";
 export * from "./versions";
+export * from "./quotas";

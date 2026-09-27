@@ -1,4 +1,4 @@
-import { and, enqueueCloneProject, eq, getDb, isNull, or, projects } from "@kiln/db";
+import { and, enqueueCloneProject, eq, getDb, isNull, or, projectQuotaExceeded, projects } from "@kiln/db";
 import { NextResponse } from "next/server";
 import { HttpError, route } from "@/server/api";
 
@@ -7,6 +7,8 @@ export const POST = route<RouteContext<"/api/projects/[id]/remix">>(async (_req,
   const { id } = await ctx.params;
   if (!/^[0-9a-f-]{36}$/i.test(id)) throw new HttpError(404, "Project not found");
   const { db } = getDb();
+  const overProjects = await projectQuotaExceeded(getDb().db, user.id);
+  if (overProjects) throw new HttpError(429, overProjects);
   const [source] = await db
     .select()
     .from(projects)

@@ -1,15 +1,13 @@
 # Kiln
 
-An AI app builder in the spirit of Lovable, Bolt.new and v0: describe an app, an agent writes it inside an isolated [Tensorlake](https://tensorlake.ai) sandbox, fixes its own errors, and shows a live preview. Iterate by chat, roll back any version, explore variants, publish.
-
-> **Status:** Phase 6: versions, terminal, sleep/wake, concurrency queue, share + remix, ZIP export, publishing to S3.
+An AI app builder in the spirit of Lovable, Bolt.new and v0: describe an app, an agent writes it inside an isolated [Tensorlake](https://tensorlake.ai) sandbox, fixes its own errors, and shows a live preview. Iterate by chat, roll back any version, share, and publish.
 
 ## Local setup
 
 ```bash
 pnpm install
 cp .env.example .env        # then fill in TENSORLAKE_API_KEY + an LLM key, and AUTH_SECRET (openssl rand -base64 32)
-pnpm infra:up               # postgres, minio, jaeger
+pnpm infra:up               # postgres, minio
 pnpm s3:setup               # create + lock down the bucket
 pnpm spike spikes/01-create-run.ts   # sanity-check Tensorlake access
 pnpm db:migrate             # create tables
@@ -21,7 +19,15 @@ pnpm agent:run --fixture habit-tracker   # one full agent turn (or: pnpm agent:r
 
 Open http://localhost:3000 and sign in with the dev login (any username). Previews are served from `http://<project-id>.preview.localhost:4000` and published sites from `http://<slug>.app.localhost:4000`, each on its own origin (`*.localhost` resolves to 127.0.0.1 in modern browsers).
 
-Useful URLs: MinIO console http://localhost:9001 (kiln / kiln-dev-secret), Jaeger http://localhost:16686.
+MinIO console: http://localhost:9001 (kiln / kiln-dev-secret).
+
+## Tests and evals
+
+```bash
+pnpm test               # unit tests (no credentials needed; what CI runs)
+pnpm test:integration   # real sandbox + Postgres: network egress, secrets, path escapes, crash recovery, quotas
+pnpm eval               # every fixture × Claude Sonnet 5 and GPT-5.5; JSON + HTML report to .kiln/evals and S3
+```
 
 ## Repository layout
 

@@ -1,5 +1,15 @@
 import "server-only";
-import { and, enqueueAgentTurn, eq, getDb, inArray, messages, projects, runs } from "@kiln/db";
+import {
+  and,
+  enqueueAgentTurn,
+  eq,
+  getDb,
+  inArray,
+  messages,
+  projects,
+  runQuotaExceeded,
+  runs,
+} from "@kiln/db";
 import { llmEnv, loadEnv } from "@kiln/shared";
 import { HttpError } from "./api";
 
@@ -11,6 +21,8 @@ export async function startTurn(opts: { projectId: string; userId: string; promp
     .from(runs)
     .where(and(eq(runs.projectId, opts.projectId), inArray(runs.status, ["queued", "running"])));
   if (active.length) throw new HttpError(409, "The agent is still working on the previous request.");
+  const over = await runQuotaExceeded(db, opts.userId);
+  if (over) throw new HttpError(429, over);
 
   const model = opts.model ?? loadEnv(llmEnv).LLM_CODER;
   const run = await db.transaction(async (tx) => {
