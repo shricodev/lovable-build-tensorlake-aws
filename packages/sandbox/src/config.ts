@@ -31,3 +31,12 @@ export const MAX_WRITE_BYTES = 512 * 1024;
 
 /** Cap on captured command output returned to callers (per stream). */
 export const MAX_OUTPUT_CHARS = 16_000;
+
+/**
+ * Port URL for a sandbox without an API round trip:
+ * `https://<port>-<id>.sandbox.tensorlake.ai` (host from TENSORLAKE_SANDBOX_PROXY_URL).
+ */
+export function previewUrlFor(sandboxId: string, port = DEV_PORT): string {
+  const host = new URL(process.env.TENSORLAKE_SANDBOX_PROXY_URL ?? "https://sandbox.tensorlake.ai").host;
+  return `https://${port}-${sandboxId}.${host}`;
+}

@@ -8,10 +8,10 @@ import {
   MAX_WRITE_BYTES,
   NPM_ONLY_NETWORK,
   TIMEOUTS,
-} from "./config.js";
-import { SandboxError, SandboxPathError, toSandboxError } from "./errors.js";
-import { truncateOutput } from "./output.js";
-import { isInsideApp, isProtectedPath, resolveProjectPath, toRelative } from "./paths.js";
+} from "./config";
+import { SandboxError, SandboxPathError, toSandboxError } from "./errors";
+import { truncateOutput } from "./output";
+import { isInsideApp, isProtectedPath, resolveProjectPath, toRelative } from "./paths";
 
 export type SandboxState = "running" | "suspended" | "starting" | "terminated" | "error";
 

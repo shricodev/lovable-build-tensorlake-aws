@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { defineTool } from "./types.js";
+import { defineTool } from "./types";
 
 // npm package name with an optional semver-ish version: no URLs, git refs, tarballs or local paths.
 const SPEC = /^(@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*(@[\w.^~<>=*|-]+)?$/;

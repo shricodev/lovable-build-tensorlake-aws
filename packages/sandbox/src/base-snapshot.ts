@@ -4,9 +4,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import type { Logger } from "@kiln/shared";
 import { Sandbox } from "tensorlake";
-import { APP_DIR } from "./config.js";
-import { SandboxError } from "./errors.js";
-import { ProjectSandbox } from "./project-sandbox.js";
+import { APP_DIR } from "./config";
+import { SandboxError } from "./errors";
+import { ProjectSandbox } from "./project-sandbox";
 
 const REPO_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
 export const TEMPLATE_DIR = `${REPO_ROOT}infra/sandbox-image/template`;

@@ -3,7 +3,7 @@
  * (which tools exist decides what the later spikes and the base image need).
  */
 import { Sandbox } from "tensorlake";
-import { spike, uniq } from "./lib.js";
+import { spike, uniq } from "./lib";
 
 const s = spike("01-create-run");
 

@@ -5,7 +5,7 @@
  * refused, then check whether suspending one frees a slot.
  */
 import { Sandbox } from "tensorlake";
-import { describeError, spike, uniq } from "./lib.js";
+import { describeError, spike, uniq } from "./lib";
 
 const s = spike("10-concurrency");
 const MAX_PROBE = 4;

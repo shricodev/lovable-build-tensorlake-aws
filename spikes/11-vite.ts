@@ -5,7 +5,7 @@
  * that the dev server is reachable through the port proxy.
  */
 import { Sandbox } from "tensorlake";
-import { dec, enc, spike, uniq } from "./lib.js";
+import { dec, enc, spike, uniq } from "./lib";
 
 const s = spike("11-vite");
 const APP = "/home/tl-user/app";

@@ -1,18 +1,18 @@
 import type { ToolSpec } from "@kiln/llm";
 import { z } from "zod";
-import { getBrowserErrors } from "./browser-errors.js";
-import { deleteFile } from "./delete-file.js";
-import { getDevServerLogs } from "./dev-server-logs.js";
-import { editFile } from "./edit-file.js";
-import { finish } from "./finish.js";
-import { installPackages } from "./install-packages.js";
-import { listFiles } from "./list-files.js";
-import { readFile } from "./read-file.js";
-import { runCommand } from "./run-command.js";
-import type { AgentTool } from "./types.js";
-import { writeFile } from "./write-file.js";
+import { getBrowserErrors } from "./browser-errors";
+import { deleteFile } from "./delete-file";
+import { getDevServerLogs } from "./dev-server-logs";
+import { editFile } from "./edit-file";
+import { finish } from "./finish";
+import { installPackages } from "./install-packages";
+import { listFiles } from "./list-files";
+import { readFile } from "./read-file";
+import { runCommand } from "./run-command";
+import type { AgentTool } from "./types";
+import { writeFile } from "./write-file";
 
-export type { AgentTool, BrowserError, ToolContext, ToolOutput } from "./types.js";
+export type { AgentTool, BrowserError, ToolContext, ToolOutput } from "./types";
 
 // Order is part of the prompt-cache prefix: keep it fixed.
 export const TOOLS: AgentTool[] = [

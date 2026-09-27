@@ -8,12 +8,17 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "agent:run": "tsx --env-file-if-exists=../../.env src/cli/agent-run.ts"
+    "agent:run": "tsx --env-file-if-exists=../../.env src/cli/agent-run.ts",
+    "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
+    "start": "tsx --env-file-if-exists=../../.env src/main.ts"
   },
   "dependencies": {
+    "@kiln/db": "workspace:*",
     "@kiln/llm": "workspace:*",
     "@kiln/sandbox": "workspace:*",
     "@kiln/shared": "workspace:*",
+    "pg-boss": "^12.35.0",
+    "postgres": "^3.4.9",
     "zod": "^4.6.5"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@
  * the point is to learn exactly how, so the governor can plan around it.
  */
 import { Sandbox } from "tensorlake";
-import { dec, enc, spike, uniq } from "./lib.js";
+import { dec, enc, spike, uniq } from "./lib";
 
 const s = spike("04-copy");
 

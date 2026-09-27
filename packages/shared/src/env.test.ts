@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { authEnv, coreEnv, llmEnv, loadEnv } from "./env.js";
+import { authEnv, coreEnv, llmEnv, loadEnv } from "./env";
 
 describe("loadEnv", () => {
   it("applies defaults", () => {

@@ -3,7 +3,7 @@
  * token, and check whether scrollback is replayed on reattach.
  */
 import { Sandbox } from "tensorlake";
-import { dec, spike, uniq } from "./lib.js";
+import { dec, spike, uniq } from "./lib";
 
 const s = spike("06-pty");
 

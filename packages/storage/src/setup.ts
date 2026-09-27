@@ -6,7 +6,7 @@ import {
   PutPublicAccessBlockCommand,
   type BucketLocationConstraint,
 } from "@aws-sdk/client-s3";
-import type { Storage } from "./client.js";
+import type { Storage } from "./client";
 
 export interface SetupStep {
   step: string;

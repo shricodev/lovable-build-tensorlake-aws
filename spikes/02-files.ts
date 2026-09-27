@@ -4,7 +4,7 @@
  * whether the file API follows symlinks (matters for path-escape checks).
  */
 import { Sandbox } from "tensorlake";
-import { dec, describeError, enc, spike, uniq } from "./lib.js";
+import { dec, describeError, enc, spike, uniq } from "./lib";
 
 const s = spike("02-files");
 const root = "/home/tl-user/app";

@@ -1,3 +1,3 @@
-export * from "./client.js";
-export * from "./keys.js";
-export * from "./setup.js";
+export * from "./client";
+export * from "./keys";
+export * from "./setup";

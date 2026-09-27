@@ -6,7 +6,7 @@
  * terminated before restoring.
  */
 import { Sandbox } from "tensorlake";
-import { dec, enc, spike, uniq } from "./lib.js";
+import { dec, enc, spike, uniq } from "./lib";
 
 const s = spike("03-snapshots");
 

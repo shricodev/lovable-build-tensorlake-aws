@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { storageKeys } from "./keys.js";
+import { storageKeys } from "./keys";
 
 describe("storageKeys", () => {
   it("builds the documented layout", () => {

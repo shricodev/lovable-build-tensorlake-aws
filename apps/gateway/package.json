@@ -7,6 +7,17 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
+    "start": "tsx --env-file-if-exists=../../.env src/main.ts"
+  },
+  "dependencies": {
+    "@kiln/db": "workspace:*",
+    "@kiln/sandbox": "workspace:*",
+    "@kiln/shared": "workspace:*",
+    "http-proxy-3": "^2.0.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
   }
 }

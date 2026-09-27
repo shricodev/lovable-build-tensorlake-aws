@@ -9,10 +9,11 @@
 import { readFileSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { createProvider } from "@kiln/llm";
-import { ProjectSandbox, readBaseSnapshot } from "@kiln/sandbox";
+import { ProjectSandbox } from "@kiln/sandbox";
+import { readBaseSnapshot } from "@kiln/sandbox/base";
 import { createLogger, llmEnv, loadEnv } from "@kiln/shared";
-import { runAgentTurn } from "../agent/loop.js";
-import type { AgentEvent } from "../agent/events.js";
+import { runAgentTurn } from "../agent/loop";
+import type { AgentEvent } from "../agent/events";
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,

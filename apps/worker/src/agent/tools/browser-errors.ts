@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { defineTool } from "./types.js";
+import { defineTool } from "./types";
 
 export const getBrowserErrors = defineTool({
   name: "get_browser_errors",

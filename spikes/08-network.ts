@@ -3,7 +3,7 @@
  * (to install packages) and nothing else. Also checks live policy updates.
  */
 import { Sandbox } from "tensorlake";
-import { spike, uniq } from "./lib.js";
+import { spike, uniq } from "./lib";
 
 const s = spike("08-network");
 

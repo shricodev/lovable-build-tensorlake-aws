@@ -10,10 +10,10 @@ import {
 } from "@kiln/llm";
 import type { ProjectSandbox } from "@kiln/sandbox";
 import { KilnError, type Logger } from "@kiln/shared";
-import { describeFailures, renderCheck, runChecks, type CheckResult } from "./checks.js";
-import { buildTurnMessage, elideOldToolResults, type PriorTurn } from "./context.js";
-import type { AgentEvent } from "./events.js";
-import { findTool, toolSpecs, type BrowserError, type ToolContext, type ToolOutput } from "./tools/index.js";
+import { describeFailures, renderCheck, runChecks, type CheckResult } from "./checks";
+import { buildTurnMessage, elideOldToolResults, type PriorTurn } from "./context";
+import type { AgentEvent } from "./events";
+import { findTool, toolSpecs, type BrowserError, type ToolContext, type ToolOutput } from "./tools/index";
 
 const SYSTEM_PROMPT = readFileSync(new URL("./prompts/system.md", import.meta.url), "utf8");
 
