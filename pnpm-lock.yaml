@@ -53,7 +53,14 @@ importers:
 
   packages/llm: {}
 
-  packages/sandbox: {}
+  packages/sandbox:
+    dependencies:
+      '@kiln/shared':
+        specifier: workspace:*
+        version: link:../shared
+      tensorlake:
+        specifier: 0.5.135
+        version: 0.5.135
 
   packages/shared:
     dependencies:
