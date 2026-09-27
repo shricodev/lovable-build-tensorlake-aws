@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { KilnError, TimeoutError } from "./errors.js";
-import { backoffDelay, retry, withTimeout } from "./retry.js";
+import { KilnError, TimeoutError } from "./errors";
+import { backoffDelay, retry, withTimeout } from "./retry";
 
 const transient = () => new KilnError("flaky", "flaky", { retryable: true });
 

@@ -5,7 +5,7 @@
  * diffs back from outside the sandbox.
  */
 import { RepositoryClient, Sandbox } from "tensorlake";
-import { spike, uniq } from "./lib.js";
+import { spike, uniq } from "./lib";
 
 const s = spike("09-git");
 const repos = new RepositoryClient();

@@ -2,7 +2,7 @@
 
 An AI app builder in the spirit of Lovable, Bolt.new and v0: describe an app, an agent writes it inside an isolated [Tensorlake](https://tensorlake.ai) sandbox, fixes its own errors, and shows a live preview. Iterate by chat, roll back any version, explore variants, publish.
 
-> **Status:** Phase 2 (agent core: `pnpm agent:run`). See [docs/TENSORLAKE_NOTES.md](docs/TENSORLAKE_NOTES.md) for verified platform capabilities and [docs/DECISIONS.md](docs/DECISIONS.md) for design decisions.
+> **Status:** Phase 3 (web app, live preview, realtime streaming). See [docs/TENSORLAKE_NOTES.md](docs/TENSORLAKE_NOTES.md) for verified platform capabilities and [docs/DECISIONS.md](docs/DECISIONS.md) for design decisions.
 
 ## Local setup
 
@@ -12,10 +12,14 @@ cp .env.example .env        # then fill in TENSORLAKE_API_KEY + an LLM key, and 
 pnpm infra:up               # postgres, minio, jaeger
 pnpm s3:setup               # create + lock down the bucket
 pnpm spike spikes/01-create-run.ts   # sanity-check Tensorlake access
+pnpm db:migrate             # create tables
 pnpm sandbox:build-base     # build the warm base snapshot (~45 s, once per template change)
+pnpm dev                    # web :3000, preview gateway :4000, worker
 pnpm sandbox:bench -- --keep   # cold vs snapshot vs fork timings; leaves one preview running
 pnpm agent:run --fixture habit-tracker   # one full agent turn (or: pnpm agent:run "a pomodoro timer")
 ```
+
+Open http://localhost:3000 and sign in with the dev login (any username). Previews are served from `http://<project-id>.preview.localhost:4000` (a separate origin; `*.localhost` resolves to 127.0.0.1 in modern browsers).
 
 Useful URLs: MinIO console http://localhost:9001 (kiln / kiln-dev-secret), Jaeger http://localhost:16686.
 
@@ -51,3 +55,9 @@ Useful URLs: MinIO console http://localhost:9001 (kiln / kiln-dev-secret), Jaege
 3. In `.env`: remove `S3_ENDPOINT` and `S3_FORCE_PATH_STYLE`, set `S3_BUCKET`, `S3_REGION`, and the key pair.
 
 The bucket stays private (all four public-access blocks on). Browsers only ever get short-lived presigned URLs.
+
+## GitHub OAuth (optional locally)
+
+1. Go to GitHub → Settings → Developer settings → OAuth Apps → **New OAuth App**.
+2. Set the homepage URL to `http://localhost:3000` and the authorization callback URL to `http://localhost:3000/api/auth/callback/github`.
+3. Put the client ID and secret in `.env` as `AUTH_GITHUB_ID` / `AUTH_GITHUB_SECRET`, then restart `pnpm dev`. The login page shows "Continue with GitHub" automatically.

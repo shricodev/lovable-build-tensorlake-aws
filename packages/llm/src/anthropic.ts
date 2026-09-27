@@ -1,13 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { KilnError } from "@kiln/shared";
-import type {
-  AssistantMessage,
-  ChatRequest,
-  ChatResult,
-  LlmMessage,
-  LlmProvider,
-  StopReason,
-} from "./types.js";
+import type { AssistantMessage, ChatRequest, ChatResult, LlmMessage, LlmProvider, StopReason } from "./types";
 
 export class AnthropicProvider implements LlmProvider {
   readonly provider = "anthropic" as const;

@@ -1,4 +1,4 @@
-import { TimeoutError, isRetryable } from "./errors.js";
+import { TimeoutError, isRetryable } from "./errors";
 
 export interface RetryOptions {
   attempts?: number;

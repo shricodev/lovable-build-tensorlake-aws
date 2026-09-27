@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { KilnError } from "@kiln/shared";
-import type { ChatRequest, ChatResult, LlmMessage, LlmProvider, StopReason } from "./types.js";
+import type { ChatRequest, ChatResult, LlmMessage, LlmProvider, StopReason } from "./types";
 
 type ChatMessage = OpenAI.Chat.Completions.ChatCompletionMessageParam;
 

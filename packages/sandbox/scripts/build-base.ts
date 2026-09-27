@@ -1,6 +1,6 @@
 /** `pnpm sandbox:build-base`: build the warm base snapshot and record its id in .kiln/base-snapshot.json. */
 import { createLogger } from "@kiln/shared";
-import { buildBaseSnapshot, readBaseSnapshot, templateTarball } from "../src/index.js";
+import { buildBaseSnapshot, readBaseSnapshot, templateTarball } from "../src/base-snapshot";
 
 const log = createLogger("build-base");
 const existing = readBaseSnapshot();

@@ -1,5 +1,5 @@
 import type { ProjectSandbox } from "@kiln/sandbox";
-import type { BrowserError } from "./tools/index.js";
+import type { BrowserError } from "./tools/index";
 
 export interface CheckResult {
   ok: boolean;

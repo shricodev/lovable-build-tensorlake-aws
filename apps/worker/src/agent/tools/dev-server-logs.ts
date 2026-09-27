@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { defineTool } from "./types.js";
+import { defineTool } from "./types";
 
 export const getDevServerLogs = defineTool({
   name: "get_dev_server_logs",

@@ -1,6 +1,6 @@
 import { posix } from "node:path";
-import { APP_DIR } from "./config.js";
-import { SandboxPathError } from "./errors.js";
+import { APP_DIR } from "./config";
+import { SandboxPathError } from "./errors";
 
 /**
  * Step 1 of path safety (ADR-010): purely lexical checks in the worker.

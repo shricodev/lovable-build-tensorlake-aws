@@ -4,7 +4,7 @@
  */
 import { Sandbox } from "tensorlake";
 import WebSocket from "ws";
-import { enc, spike, uniq } from "./lib.js";
+import { enc, spike, uniq } from "./lib";
 
 const s = spike("07-port-websocket");
 

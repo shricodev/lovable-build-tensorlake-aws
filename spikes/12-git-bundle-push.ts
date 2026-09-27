@@ -10,7 +10,7 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { RepositoryClient, Sandbox } from "tensorlake";
-import { spike, uniq } from "./lib.js";
+import { spike, uniq } from "./lib";
 
 const s = spike("12-git-bundle-push");
 const repos = new RepositoryClient();

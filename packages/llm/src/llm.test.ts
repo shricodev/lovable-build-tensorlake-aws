@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { createProvider } from "./index.js";
-import { costUsd } from "./pricing.js";
+import { createProvider } from "./index";
+import { costUsd } from "./pricing";
 
 describe("createProvider", () => {
   it("parses provider:model refs", () => {

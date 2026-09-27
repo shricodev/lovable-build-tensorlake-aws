@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { defineTool } from "./types.js";
+import { defineTool } from "./types";
 
 export const finish = defineTool({
   name: "finish",

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { elideOldToolResults } from "../context.js";
-import { checkPackageSpec } from "./install-packages.js";
-import { runCommand } from "./run-command.js";
-import type { ToolContext } from "./types.js";
+import { elideOldToolResults } from "../context";
+import { checkPackageSpec } from "./install-packages";
+import { runCommand } from "./run-command";
+import type { ToolContext } from "./types";
 
 describe("checkPackageSpec", () => {
   it.each(["react-confetti", "@tanstack/react-query", "zod@4", "framer-motion@^12.0.0"])("allows %s", (s) =>

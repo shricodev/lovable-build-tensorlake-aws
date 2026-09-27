@@ -2,8 +2,8 @@ import type { ChatRequest, ChatResult, LlmProvider } from "@kiln/llm";
 import type { ProjectSandbox } from "@kiln/sandbox";
 import { createLogger } from "@kiln/shared";
 import { describe, expect, it } from "vitest";
-import type { AgentEvent } from "./events.js";
-import { runAgentTurn } from "./loop.js";
+import type { AgentEvent } from "./events";
+import { runAgentTurn } from "./loop";
 
 const log = createLogger("test", { level: "silent" });
 

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { defineTool } from "./types.js";
+import { defineTool } from "./types";
 
 /** Commands the agent should not run through this tool (policy, not a security boundary: the sandbox is). */
 const BLOCKED: Array<[RegExp, string]> = [

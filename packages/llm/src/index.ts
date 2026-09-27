@@ -1,10 +1,10 @@
 import { KilnError } from "@kiln/shared";
-import { AnthropicProvider } from "./anthropic.js";
-import { OpenAIProvider } from "./openai.js";
-import type { LlmProvider } from "./types.js";
+import { AnthropicProvider } from "./anthropic";
+import { OpenAIProvider } from "./openai";
+import type { LlmProvider } from "./types";
 
-export * from "./types.js";
-export * from "./pricing.js";
+export * from "./types";
+export * from "./pricing";
 export { AnthropicProvider, OpenAIProvider };
 
 /**

@@ -8,12 +8,8 @@
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { createLogger } from "@kiln/shared";
-import {
-  coldCreateFromTemplate,
-  ProjectSandbox,
-  readBaseSnapshot,
-  type PreviewEndpoint,
-} from "../src/index.js";
+import { coldCreateFromTemplate, readBaseSnapshot } from "../src/base-snapshot";
+import { ProjectSandbox, type PreviewEndpoint } from "../src/index";
 
 const log = createLogger("bench");
 const keep = process.argv.includes("--keep");

@@ -4,7 +4,7 @@
  * This decides how the Preview Gateway works.
  */
 import { Sandbox, SandboxClient } from "tensorlake";
-import { enc, spike, uniq, waitForStatus } from "./lib.js";
+import { enc, spike, uniq, waitForStatus } from "./lib";
 
 const s = spike("05-suspend-ports");
 const apiKey = process.env.TENSORLAKE_API_KEY!;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { APP_DIR } from "./config.js";
-import { isProtectedPath, resolveProjectPath, toRelative } from "./paths.js";
+import { APP_DIR } from "./config";
+import { isProtectedPath, resolveProjectPath, toRelative } from "./paths";
 
 describe("resolveProjectPath", () => {
   it("resolves relative paths under the app dir", () => {

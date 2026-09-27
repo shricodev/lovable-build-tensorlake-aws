@@ -1,4 +1,4 @@
-import type { Usage } from "./types.js";
+import type { Usage } from "./types";
 
 /** USD per 1M tokens. Cache reads bill at 0.1x input, cache writes at 1.25x (Anthropic). */
 interface Price {
