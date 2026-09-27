@@ -23,6 +23,7 @@ export interface ProjectSummary {
   updatedAt: string;
   sandboxStatus: string | null;
   busy: boolean;
+  hasThumbnail: boolean;
 }
 
 export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
@@ -83,8 +84,17 @@ export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
             className="group relative gap-0 overflow-hidden p-0 transition-colors hover:border-foreground/20"
           >
             <Link href={`/projects/${p.id}`} className="absolute inset-0 z-0" aria-label={`Open ${p.name}`} />
-            <div className="grid aspect-video place-items-center border-b bg-muted text-3xl font-semibold text-muted-foreground/60">
-              {p.name.slice(0, 1).toUpperCase()}
+            <div className="grid aspect-video place-items-center overflow-hidden border-b bg-muted text-3xl font-semibold text-muted-foreground/60">
+              {p.hasThumbnail ? (
+                <img
+                  src={`/api/projects/${p.id}/thumbnail?v=${encodeURIComponent(p.updatedAt)}`}
+                  alt=""
+                  className="size-full object-cover object-top"
+                  loading="lazy"
+                />
+              ) : (
+                p.name.slice(0, 1).toUpperCase()
+              )}
             </div>
             <div className="flex items-start justify-between gap-2 p-4">
               <div className="min-w-0 space-y-1">

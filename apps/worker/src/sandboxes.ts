@@ -1,4 +1,4 @@
-import { appendEvent, and, eq, sandboxes, type Db } from "@kiln/db";
+import { acquireSlot, appendEvent, and, eq, sandboxes, type Db } from "@kiln/db";
 import { ProjectSandbox } from "@kiln/sandbox";
 import { readBaseSnapshot } from "@kiln/sandbox/base";
 import type { Logger } from "@kiln/shared";
@@ -20,7 +20,21 @@ async function setStatus(
  * Return a running main sandbox for the project: reuse it, wake it if
  * suspended, or create one from the warm base snapshot.
  */
-export async function ensureMainSandbox(db: Db, projectId: string, log: Logger): Promise<ProjectSandbox> {
+export async function ensureMainSandbox(
+  db: Db,
+  projectId: string,
+  log: Logger,
+  opts: { runId?: string; waitingSince?: Date; signal?: AbortSignal } = {},
+): Promise<ProjectSandbox> {
+  // Respect SANDBOX_CONCURRENCY_LIMIT: may suspend an idle sandbox or wait in line.
+  await acquireSlot(db, {
+    projectId,
+    runId: opts.runId,
+    waitingSince: opts.waitingSince,
+    signal: opts.signal,
+    suspend: async (id) => (await ProjectSandbox.connect(id, log)).suspend(),
+  });
+
   const [row] = await db
     .select()
     .from(sandboxes)

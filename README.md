@@ -2,7 +2,7 @@
 
 An AI app builder in the spirit of Lovable, Bolt.new and v0: describe an app, an agent writes it inside an isolated [Tensorlake](https://tensorlake.ai) sandbox, fixes its own errors, and shows a live preview. Iterate by chat, roll back any version, explore variants, publish.
 
-> **Status:** Phase 3 (web app, live preview, realtime streaming).
+> **Status:** Phase 4: versions (history, diff, restore), terminal, sandbox sleep/wake, concurrency queue, thumbnails.
 
 ## Local setup
 

@@ -60,7 +60,7 @@ export const GET = route<RouteContext<"/api/projects/[id]/stream">>(async (req, 
           for (const r of rows) {
             cursor = r.id;
             send(
-              `id: ${r.id}\ndata: ${JSON.stringify({ id: r.id, runId: r.runId, type: r.type, payload: r.payload })}\n\n`,
+              `id: ${r.id}\ndata: ${JSON.stringify({ id: r.id, runId: r.runId, type: r.type, payload: r.payload, at: r.createdAt })}\n\n`,
             );
           }
         });

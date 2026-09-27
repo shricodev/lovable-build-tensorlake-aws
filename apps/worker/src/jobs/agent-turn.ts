@@ -6,6 +6,7 @@ import type { AgentEvent } from "../agent/events";
 import { runAgentTurn } from "../agent/loop";
 import type { PriorTurn } from "../agent/context";
 import { ensureMainSandbox } from "../sandboxes";
+import { saveVersion } from "../versions";
 
 export async function handleAgentTurn(
   job: AgentTurnJob,
@@ -71,7 +72,11 @@ export async function handleAgentTurn(
   };
 
   try {
-    const sandbox = await ensureMainSandbox(db, projectId, log);
+    const sandbox = await ensureMainSandbox(db, projectId, log, {
+      runId: run.id,
+      waitingSince: new Date(),
+      signal: ac.signal,
+    });
     const priorTurns = await loadPriorTurns(db, projectId, run.id);
     const startedAt = new Date();
     const result = await runAgentTurn({
@@ -113,6 +118,9 @@ export async function handleAgentTurn(
       costUsd: result.costUsd,
       error: result.error ?? null,
     });
+    if (result.status === "succeeded") {
+      await saveVersion({ db, log, sandbox, projectId, runId: run.id, prompt: userMsg?.content ?? "" });
+    }
     const reply =
       result.status === "succeeded"
         ? result.summary
@@ -130,6 +138,13 @@ export async function handleAgentTurn(
   } catch (err) {
     flush();
     await chain;
+    if (ac.signal.aborted) {
+      // Stopped while still waiting for a sandbox slot.
+      await finishRun(db, run.id, { status: "cancelled" });
+      await db.insert(messages).values({ projectId, role: "assistant", content: "Stopped.", runId: run.id });
+      await emit("run_done", { status: "cancelled", summary: "Stopped." });
+      return;
+    }
     log.error({ err }, "agent turn crashed");
     const msg = err instanceof Error ? err.message : String(err);
     await finishRun(db, run.id, { status: "failed", error: msg });

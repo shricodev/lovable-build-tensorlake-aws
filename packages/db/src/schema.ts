@@ -60,6 +60,8 @@ export const projects = pgTable(
       .notNull()
       .default("private"),
     thumbnailKey: text("thumbnail_key"),
+    /** Tensorlake hosted Git repo holding this project's history. */
+    gitRepo: text("git_repo"),
     createdAt: createdAt(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
     deletedAt: timestamp("deleted_at", { withTimezone: true }),
@@ -175,6 +177,42 @@ export const browserErrors = pgTable(
   (t) => [index("browser_errors_project_idx").on(t.projectId, t.createdAt)],
 );
 
+/** One git commit in the sandbox = one version. Numbers are per project. */
+export const versions = pgTable(
+  "versions",
+  {
+    id: id(),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => projects.id, { onDelete: "cascade" }),
+    number: integer("number").notNull(),
+    commitSha: text("commit_sha").notNull(),
+    source: text("source", { enum: ["agent", "manual", "restore", "variant"] }).notNull(),
+    title: text("title").notNull(),
+    changedFiles: jsonb("changed_files").$type<string[]>().notNull().default([]),
+    runId: uuid("run_id").references(() => runs.id, { onDelete: "set null" }),
+    restoredFrom: integer("restored_from"),
+    screenshotKey: text("screenshot_key"),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    uniqueIndex("versions_project_number_idx").on(t.projectId, t.number),
+    uniqueIndex("versions_run_idx").on(t.runId),
+  ],
+);
+
+/** Tensorlake PTY sessions, kept so a terminal can reattach after a refresh. */
+export const ptySessions = pgTable("pty_sessions", {
+  projectId: uuid("project_id")
+    .primaryKey()
+    .references(() => projects.id, { onDelete: "cascade" }),
+  sandboxId: text("sandbox_id").notNull(),
+  sessionId: text("session_id").notNull(),
+  token: text("token").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type Version = typeof versions.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type Project = typeof projects.$inferSelect;
 export type Sandbox = typeof sandboxes.$inferSelect;

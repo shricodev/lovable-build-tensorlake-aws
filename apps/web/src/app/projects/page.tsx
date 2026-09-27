@@ -16,6 +16,7 @@ export default async function ProjectsPage() {
       id: projects.id,
       name: projects.name,
       updatedAt: projects.updatedAt,
+      thumbnailKey: projects.thumbnailKey,
       sandboxStatus: sandboxes.status,
     })
     .from(projects)
@@ -57,6 +58,7 @@ export default async function ProjectsPage() {
             name: r.name,
             updatedAt: r.updatedAt.toISOString(),
             sandboxStatus: r.sandboxStatus ?? null,
+            hasThumbnail: !!r.thumbnailKey,
             busy: busy.has(r.id),
           }))}
         />

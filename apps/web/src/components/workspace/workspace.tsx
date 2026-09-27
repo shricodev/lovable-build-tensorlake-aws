@@ -15,7 +15,9 @@ import { ChatPanel, type ChatMessage } from "./chat-panel";
 import { CodePanel } from "./code-panel";
 import { LogsPanel } from "./logs-panel";
 import { PreviewPanel } from "./preview-panel";
-import { useProjectStream } from "./use-project-stream";
+import { TerminalPanel } from "./terminal-panel";
+import { useProjectStream, type VersionEvent } from "./use-project-stream";
+import { VersionsSheet } from "./versions-sheet";
 
 const MODELS = [
   { ref: "anthropic:claude-sonnet-5", label: "Claude Sonnet 5" },
@@ -48,6 +50,8 @@ export function Workspace(props: WorkspaceProps) {
   const [refreshKey, setRefreshKey] = useState(0);
   const [route, setRoute] = useState("/");
   const [model, setModel] = useState(MODELS[0]!.ref);
+  const [terminalOpened, setTerminalOpened] = useState(false);
+  const [versionsKey, setVersionsKey] = useState(0);
   const layout = useDefaultLayout({ id: "kiln-workspace", storage: layoutStorage });
 
   useEffect(() => {
@@ -66,9 +70,28 @@ export function Workspace(props: WorkspaceProps) {
         else if (status === "failed") toast.error("The agent couldn't finish this request.");
       },
       // The first sandbox for a project comes up mid-run: reload the "no preview yet" page.
-      onSandboxRunning: () => setReloadKey((k) => k + 1),
+      onSandboxRunning: (wakeMs) => {
+        setReloadKey((k) => k + 1);
+        if (wakeMs) toast(`Sandbox woke up in ${(wakeMs / 1000).toFixed(1)}s`);
+      },
+      onVersion: (v) => {
+        setVersionsKey((k) => k + 1);
+        toast.success(`Version ${v.number} saved`);
+        captureThumbnail(v);
+      },
     },
   );
+
+  // Ask the preview to render itself to a JPEG (kiln/error-capture.ts) once HMR has applied the changes.
+  const captureThumbnail = (v: VersionEvent) => {
+    setTimeout(() => {
+      const frame = document.querySelector<HTMLIFrameElement>('iframe[title="App preview"]');
+      frame?.contentWindow?.postMessage(
+        { source: "kiln-parent", kind: "capture", id: v.id },
+        new URL(previewUrl).origin,
+      );
+    }, 2500);
+  };
 
   const send = useCallback(
     async (prompt: string) => {
@@ -116,10 +139,25 @@ export function Workspace(props: WorkspaceProps) {
     }, 2000);
     const onMessage = (e: MessageEvent) => {
       if (e.origin !== origin) return;
-      const d = e.data as { source?: string; kind?: string; message?: string; stack?: string; url?: string };
+      const d = e.data as {
+        source?: string;
+        kind?: string;
+        message?: string;
+        stack?: string;
+        url?: string;
+        id?: string;
+        dataUrl?: string;
+      };
       if (d?.source !== "kiln-preview") return;
       if (d.kind === "route") setRoute(d.url ?? "/");
-      else if (d.kind && d.message)
+      else if (d.kind === "capture") {
+        if (d.dataUrl && d.id)
+          void fetch(`/api/projects/${project.id}/thumbnail`, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ versionId: d.id, dataUrl: d.dataUrl }),
+          });
+      } else if (d.kind && d.message)
         pending.current.push({ kind: d.kind, message: d.message, stack: d.stack, url: d.url });
     };
     window.addEventListener("message", onMessage);
@@ -145,6 +183,7 @@ export function Workspace(props: WorkspaceProps) {
         <StatusPill status={pillFor(stream.sandboxStatus, stream.running)} />
         {!stream.connected && <span className="text-xs text-muted-foreground">Reconnecting…</span>}
         <div className="ml-auto flex items-center gap-2">
+          <VersionsSheet projectId={project.id} busy={stream.running} refreshKey={versionsKey} />
           <select
             value={model}
             onChange={(e) => {
@@ -176,11 +215,19 @@ export function Workspace(props: WorkspaceProps) {
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel id="main" defaultSize="68" minSize="35">
-          <Tabs value={tab} onValueChange={setTab} className="flex h-full flex-col gap-0">
+          <Tabs
+            value={tab}
+            onValueChange={(t) => {
+              setTab(t);
+              if (t === "terminal") setTerminalOpened(true);
+            }}
+            className="flex h-full flex-col gap-0"
+          >
             <div className="border-b px-2 py-1.5">
               <TabsList>
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
+                <TabsTrigger value="terminal">Terminal</TabsTrigger>
                 <TabsTrigger value="logs">Logs</TabsTrigger>
               </TabsList>
             </div>
@@ -190,6 +237,10 @@ export function Workspace(props: WorkspaceProps) {
             </TabsContent>
             <TabsContent value="code" className="min-h-0 flex-1">
               <CodePanel projectId={project.id} readOnly={stream.running} refreshKey={refreshKey} />
+            </TabsContent>
+            {/* Kept mounted after the first visit so switching tabs doesn't drop the shell. */}
+            <TabsContent value="terminal" forceMount className="min-h-0 flex-1 data-[state=inactive]:hidden">
+              {terminalOpened && <TerminalPanel projectId={project.id} />}
             </TabsContent>
             <TabsContent value="logs" className="min-h-0 flex-1">
               <LogsPanel projectId={project.id} refreshKey={refreshKey} />

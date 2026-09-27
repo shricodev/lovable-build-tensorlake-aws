@@ -26,3 +26,10 @@ export const wakingPage = (detail = "Starting your app…") =>
 
 export const notFoundPage = () =>
   shell("Not found", `<h1>Preview not found</h1><p>This project doesn't exist.</p>`);
+
+export const busyPage = () =>
+  shell(
+    "Waiting for a sandbox",
+    `<div class="spin"></div><h1>Waiting for a free sandbox</h1><p>All sandbox slots are busy with running agents. This page retries automatically.</p>`,
+    3,
+  );

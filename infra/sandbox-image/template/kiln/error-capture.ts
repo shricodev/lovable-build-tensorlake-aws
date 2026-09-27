@@ -30,6 +30,19 @@ const script = `
   for (const m of ["pushState", "replaceState"]) { const o = history[m]; history[m] = function (...a) { const r = o.apply(this, a); route(); return r; }; }
   window.addEventListener("popstate", route);
   route();
+  // Thumbnail: when the workspace asks, render the page to a small JPEG in the browser.
+  window.addEventListener("message", async (e) => {
+    if (e.source !== window.parent || !e.data || e.data.source !== "kiln-parent" || e.data.kind !== "capture") return;
+    try {
+      const { toJpeg } = await import("https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/+esm");
+      const w = document.documentElement.clientWidth, h = Math.round(w * 0.625);
+      const bg = getComputedStyle(document.body).backgroundColor;
+      const dataUrl = await toJpeg(document.body, { quality: 0.8, width: w, height: h, canvasWidth: 800, canvasHeight: 500, backgroundColor: bg && bg !== "rgba(0, 0, 0, 0)" ? bg : "#ffffff" });
+      window.parent.postMessage({ source: "kiln-preview", kind: "capture", id: e.data.id, dataUrl }, e.origin);
+    } catch (err) {
+      window.parent.postMessage({ source: "kiln-preview", kind: "capture", id: e.data.id, error: String(err) }, e.origin);
+    }
+  });
 })();
 `;
 
