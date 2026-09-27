@@ -1,5 +1,4 @@
-# Local infrastructure for Kiln. App services (web, worker, gateway) are added
-# in Phase 3; until then run them with `pnpm dev` against these containers.
+# Local infrastructure for Kiln. Run the apps with `pnpm dev` against these containers.
 name: kiln
 
 services:
@@ -31,17 +30,6 @@ services:
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:9000/minio/health/live"]
       interval: 3s
-      timeout: 3s
-      retries: 20
-
-  jaeger:
-    image: jaegertracing/jaeger:latest
-    ports:
-      - "16686:16686" # UI
-      - "4318:4318" # OTLP over HTTP
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:16686"]
-      interval: 5s
       timeout: 3s
       retries: 20
 

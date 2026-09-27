@@ -10,13 +10,15 @@
     "typecheck": "tsc --noEmit",
     "agent:run": "tsx --env-file-if-exists=../../.env src/cli/agent-run.ts",
     "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
-    "start": "tsx --env-file-if-exists=../../.env src/main.ts"
+    "start": "tsx --env-file-if-exists=../../.env src/main.ts",
+    "eval": "tsx --env-file-if-exists=../../.env src/cli/eval.ts"
   },
   "dependencies": {
     "@kiln/db": "workspace:*",
     "@kiln/llm": "workspace:*",
     "@kiln/sandbox": "workspace:*",
     "@kiln/shared": "workspace:*",
+    "@kiln/storage": "workspace:*",
     "pg-boss": "^12.35.0",
     "postgres": "^3.4.9",
     "zod": "^4.6.5"

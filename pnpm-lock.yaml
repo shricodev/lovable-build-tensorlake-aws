@@ -193,6 +193,9 @@ importers:
       '@kiln/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@kiln/storage':
+        specifier: workspace:*
+        version: link:../../packages/storage
       pg-boss:
         specifier: ^12.35.0
         version: 12.35.0

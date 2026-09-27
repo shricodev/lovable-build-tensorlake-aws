@@ -1,7 +1,7 @@
-import { getDb, projects } from "@kiln/db";
+import { getDb, projectQuotaExceeded, projects } from "@kiln/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { parseBody, route } from "@/server/api";
+import { HttpError, parseBody, route } from "@/server/api";
 import { startTurn } from "@/server/runs";
 
 const Body = z.object({
@@ -20,6 +20,8 @@ function nameFromPrompt(prompt: string) {
 
 export const POST = route(async (req, _ctx, user) => {
   const body = await parseBody(req, Body);
+  const overProjects = await projectQuotaExceeded(getDb().db, user.id);
+  if (overProjects) throw new HttpError(429, overProjects);
   const [p] = await getDb()
     .db.insert(projects)
     .values({ ownerId: user.id, name: body.name || nameFromPrompt(body.prompt) })
