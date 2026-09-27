@@ -8,5 +8,11 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "@kiln/shared": "workspace:*",
+    "openai": "^7.23.0",
+    "zod": "^4.6.5"
   }
 }

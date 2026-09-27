@@ -18,7 +18,8 @@
     "s3:setup": "tsx --env-file-if-exists=.env infra/s3/setup-bucket.ts",
     "spike": "tsx --env-file-if-exists=.env",
     "sandbox:build-base": "pnpm --filter @kiln/sandbox build-base",
-    "sandbox:bench": "pnpm --filter @kiln/sandbox bench"
+    "sandbox:bench": "pnpm --filter @kiln/sandbox bench",
+    "agent:run": "pnpm --filter @kiln/worker agent:run"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
