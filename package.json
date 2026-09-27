@@ -16,7 +16,9 @@
     "infra:up": "docker compose -f infra/docker-compose.yml up -d --wait",
     "infra:down": "docker compose -f infra/docker-compose.yml down",
     "s3:setup": "tsx --env-file-if-exists=.env infra/s3/setup-bucket.ts",
-    "spike": "tsx --env-file-if-exists=.env"
+    "spike": "tsx --env-file-if-exists=.env",
+    "sandbox:build-base": "pnpm --filter @kiln/sandbox build-base",
+    "sandbox:bench": "pnpm --filter @kiln/sandbox bench"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
