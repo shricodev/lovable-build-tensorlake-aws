@@ -2,6 +2,7 @@
 import { CANCEL_CHANNEL, getBoss, getDb, QUEUES, type AgentTurnJob } from "@kiln/db";
 import { createLogger } from "@kiln/shared";
 import { handleAgentTurn } from "./jobs/agent-turn";
+import { reap } from "./jobs/reaper";
 
 const log = createLogger("worker");
 const { db, sql } = getDb();
@@ -19,6 +20,11 @@ await sql.listen(CANCEL_CHANNEL, (runId) => {
 
 await boss.work<AgentTurnJob>(QUEUES.agentTurn, { localConcurrency: 3 }, async ([job]) => {
   if (job) await handleAgentTurn(job.data, { db, log, cancelSignals });
+});
+
+await boss.schedule(QUEUES.reaper, "* * * * *");
+await boss.work(QUEUES.reaper, async () => {
+  await reap(log).catch((err) => log.error({ err }, "reaper failed"));
 });
 
 log.info("worker ready");

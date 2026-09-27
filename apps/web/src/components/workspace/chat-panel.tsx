@@ -48,7 +48,12 @@ export function ChatPanel(props: {
   const replyIndex = messages.findIndex((m) => m.role === "assistant" && m.runId === timelineRun);
   const timeline = timelineRun && (stream.steps.length > 0 || stream.running) && (
     <div className="border-l-2 pl-3">
-      <Timeline steps={stream.steps} liveText={stream.liveText} running={stream.running} />
+      <Timeline
+        steps={stream.steps}
+        liveText={stream.liveText}
+        running={stream.running}
+        queuePosition={stream.queuePosition}
+      />
     </div>
   );
 

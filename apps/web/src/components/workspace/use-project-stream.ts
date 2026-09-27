@@ -26,6 +26,15 @@ export interface StreamState {
   sandboxStatus: string | null;
   lastDone: { runId: string; status: string; suggestions: string[] } | null;
   connected: boolean;
+  /** >0 while this project's run waits for a free sandbox slot. */
+  queuePosition: number;
+}
+
+export interface VersionEvent {
+  id: string;
+  number: number;
+  title: string;
+  source: string;
 }
 
 interface WireEvent {
@@ -44,6 +53,8 @@ function reduce(s: StreamState, a: Action): StreamState {
   switch (e.type) {
     case "sandbox_status":
       return { ...s, sandboxStatus: String(p.status) };
+    case "queue":
+      return { ...s, queuePosition: Number(p.position ?? 0) };
     case "run_started":
       return { ...s, runId: e.runId, running: true, steps: [], liveText: "", lastDone: null };
     case "message_delta":
@@ -106,6 +117,7 @@ function reduce(s: StreamState, a: Action): StreamState {
         ...s,
         running: false,
         liveText: "",
+        queuePosition: 0,
         lastDone: {
           runId: e.runId ?? "",
           status: String(p.status),
@@ -125,7 +137,11 @@ function reduce(s: StreamState, a: Action): StreamState {
 export function useProjectStream(
   projectId: string,
   init: { sandboxStatus: string | null; activeRunId: string | null },
-  handlers: { onRunDone?: (status: string) => void; onSandboxRunning?: () => void },
+  handlers: {
+    onRunDone?: (status: string) => void;
+    onSandboxRunning?: (wakeMs?: number) => void;
+    onVersion?: (v: VersionEvent) => void;
+  },
 ) {
   const [state, dispatch] = useReducer(reduce, {
     runId: init.activeRunId,
@@ -135,6 +151,7 @@ export function useProjectStream(
     sandboxStatus: init.sandboxStatus,
     lastDone: null,
     connected: false,
+    queuePosition: 0,
   });
   const h = useRef(handlers);
   h.current = handlers;
@@ -145,16 +162,25 @@ export function useProjectStream(
     let stopped = false;
     let retry: ReturnType<typeof setTimeout> | undefined;
 
+    // Events older than the moment we connected are a replay; don't toast them again.
+    const connectedAt = Date.now();
+    let replaying = true;
     const open = () => {
       const url = `/api/projects/${projectId}/stream${lastId !== null ? `?after=${lastId}` : ""}`;
       es = new EventSource(url);
       es.onopen = () => dispatch({ t: "connected", v: true });
       es.onmessage = (m) => {
-        const e = JSON.parse(m.data) as WireEvent;
+        const e = JSON.parse(m.data) as WireEvent & { at?: string };
         lastId = e.id;
+        replaying = !!e.at && new Date(e.at).getTime() < connectedAt - 1000;
         dispatch({ t: "event", e });
-        if (e.type === "run_done") h.current.onRunDone?.(String(e.payload.status));
-        if (e.type === "sandbox_status" && e.payload.status === "running") h.current.onSandboxRunning?.();
+        if (e.type === "run_done" && !replaying) h.current.onRunDone?.(String(e.payload.status));
+        // Side effects only for live events, not the replay of an in-progress run.
+        if (!replaying) {
+          if (e.type === "sandbox_status" && e.payload.status === "running")
+            h.current.onSandboxRunning?.(e.payload.wakeMs as number | undefined);
+          if (e.type === "version") h.current.onVersion?.(e.payload as unknown as VersionEvent);
+        }
       };
       es.onerror = () => {
         dispatch({ t: "connected", v: false });

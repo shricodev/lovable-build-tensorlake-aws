@@ -1,6 +1,6 @@
 import { PgBoss } from "pg-boss";
 
-export const QUEUES = { agentTurn: "agent-turn" } as const;
+export const QUEUES = { agentTurn: "agent-turn", reaper: "reaper" } as const;
 
 export interface AgentTurnJob {
   runId: string;
@@ -15,7 +15,7 @@ export function getBoss(url = process.env.DATABASE_URL): Promise<PgBoss> {
     const boss = new PgBoss(url);
     boss.on("error", (err) => console.error("[pg-boss]", err));
     await boss.start();
-    await boss.createQueue(QUEUES.agentTurn).catch(() => {});
+    for (const q of Object.values(QUEUES)) await boss.createQueue(q).catch(() => {});
     return boss;
   })();
   return g.__kilnBoss;

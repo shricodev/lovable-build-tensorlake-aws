@@ -82,6 +82,10 @@ export class ProjectSandbox {
     return call("list", TIMEOUTS.lifecycle, () => Sandbox.list(), { retry: true });
   }
 
+  static async listSnapshots() {
+    return call("listSnapshots", TIMEOUTS.lifecycle, () => Sandbox.listSnapshots(), { retry: true });
+  }
+
   static async deleteSnapshot(snapshotId: string): Promise<void> {
     await call("deleteSnapshot", TIMEOUTS.lifecycle, () => Sandbox.deleteSnapshot(snapshotId));
   }

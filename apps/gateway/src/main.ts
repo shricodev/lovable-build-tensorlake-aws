@@ -10,7 +10,9 @@ import { and, eq, getDb, projects, sandboxes, isNull } from "@kiln/db";
 import { previewUrlFor } from "@kiln/sandbox";
 import { createLogger } from "@kiln/shared";
 import { createProxyServer } from "http-proxy-3";
-import { noPreviewPage, notFoundPage, wakingPage } from "./pages";
+import { busyPage, noPreviewPage, notFoundPage, wakingPage } from "./pages";
+import { handleTerminalUpgrade } from "./terminal";
+import { wake } from "./wake";
 
 const log = createLogger("gateway");
 const { db } = getDb();
@@ -21,6 +23,7 @@ const HOST_RE = /^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
 interface Target {
   sandboxRowId: string | null;
   tensorlakeId: string | null;
+  status: string | null;
   exists: boolean;
   at: number;
 }
@@ -44,6 +47,7 @@ async function resolve(projectId: string): Promise<Target> {
     exists: !!row,
     sandboxRowId: row?.sandboxRowId ?? null,
     tensorlakeId: row && row.status !== "terminated" ? (row.tensorlakeId ?? null) : null,
+    status: row?.status ?? null,
     at: Date.now(),
   };
   cache.set(projectId, t);
@@ -95,6 +99,16 @@ const server = http.createServer(async (req, res) => {
         .end(html);
     if (!t.exists) return send(404, notFoundPage());
     if (!t.tensorlakeId) return send(200, noPreviewPage());
+    // Asleep: page navigations get a "Waking up" page that retries while we resume the
+    // sandbox. Sub-resource requests just go through (Tensorlake also wakes on traffic).
+    const isPage = req.method === "GET" && (req.headers.accept ?? "").includes("text/html");
+    if (isPage && (t.status === "suspended" || t.status === "waking") && t.sandboxRowId) {
+      const outcome = wake(projectId, { id: t.sandboxRowId, tensorlakeId: t.tensorlakeId }, log);
+      cache.delete(projectId);
+      const done = await Promise.race([outcome, new Promise((r) => setTimeout(() => r("pending"), 4000))]);
+      if (done === "busy") return send(503, busyPage());
+      if (done !== "running") return send(200, wakingPage());
+    }
     if (t.sandboxRowId) touch(t.sandboxRowId);
     scrub(req);
     proxy.web(req, res, {
@@ -108,6 +122,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.on("upgrade", async (req, socket, head) => {
+  if ((req.url ?? "").startsWith("/__kiln/terminal")) return handleTerminalUpgrade(req, socket, head, log);
   const m = HOST_RE.exec(req.headers.host ?? "");
   const t = m ? await resolve(m[1]!.toLowerCase()).catch(() => null) : null;
   if (!t?.tensorlakeId) return socket.destroy();

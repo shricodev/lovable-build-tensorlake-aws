@@ -53,3 +53,14 @@ export async function ownedProject(userId: string, projectId: string): Promise<P
   if (!p) throw new HttpError(404, "Project not found");
   return p;
 }
+
+/** Refuse changes to the project while the agent is working on it. */
+export async function assertIdle(projectId: string) {
+  const { db } = getDb();
+  const { runs, inArray } = await import("@kiln/db");
+  const busy = await db
+    .select({ id: runs.id })
+    .from(runs)
+    .where(and(eq(runs.projectId, projectId), inArray(runs.status, ["queued", "running"])));
+  if (busy.length) throw new HttpError(409, "The agent is working; try again when it finishes.");
+}

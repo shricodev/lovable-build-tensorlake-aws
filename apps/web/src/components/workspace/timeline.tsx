@@ -100,13 +100,21 @@ export function Timeline({
   steps,
   liveText,
   running,
+  queuePosition = 0,
 }: {
   steps: Step[];
   liveText: string;
   running: boolean;
+  queuePosition?: number;
 }) {
   return (
     <div className="space-y-1">
+      {running && queuePosition > 0 && (
+        <div className="flex items-center gap-2 rounded-md border bg-muted/40 px-3 py-2 text-[13px] text-muted-foreground">
+          <Loader2 className="size-3.5 animate-spin" />
+          Waiting for a free sandbox · #{queuePosition} in line
+        </div>
+      )}
       {group(steps).map((s, idx) => {
         switch (s.kind) {
           case "plan":
@@ -181,7 +189,7 @@ export function Timeline({
         }
       })}
       {liveText && <p className="py-1 text-[13px] whitespace-pre-wrap text-muted-foreground">{liveText}</p>}
-      {running && !liveText && (
+      {running && !liveText && queuePosition === 0 && (
         <div className="flex items-center gap-2 py-1 text-[13px] text-muted-foreground">
           <Loader2 className="size-3.5 animate-spin" /> Working…
         </div>
