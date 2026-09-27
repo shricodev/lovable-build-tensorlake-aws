@@ -1,0 +1,17 @@
+[
+  {
+    "id": "habit-tracker",
+    "difficulty": "medium",
+    "prompt": "A habit tracker: add habits, check them off per day, show current streaks, and a 12-week calendar heatmap per habit. Data persists in localStorage. Include a dark mode toggle."
+  },
+  {
+    "id": "kanban",
+    "difficulty": "medium",
+    "prompt": "A kanban board with To do / In progress / Done columns. Add, edit and delete cards, move cards between columns (drag and drop or buttons), filter by label. Persist to localStorage."
+  },
+  {
+    "id": "expense-dashboard",
+    "difficulty": "medium",
+    "prompt": "A personal expense dashboard with mock data for the last 3 months: summary cards (total spent, top category, daily average), a spending-by-category pie chart, a monthly trend line chart, and a sortable transactions table with a category filter."
+  }
+]

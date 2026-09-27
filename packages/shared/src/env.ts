@@ -36,13 +36,12 @@ export const storageEnv = z.object({
   AWS_SECRET_ACCESS_KEY: z.string().min(1),
 });
 
-/** `provider:model`, e.g. `anthropic:claude-sonnet-5` or `ollama:qwen3-coder`. */
-const modelRef = z.string().regex(/^(anthropic|openai|ollama):.+$/, "expected provider:model");
+/** `provider:model`, e.g. `anthropic:claude-sonnet-5` or `openai:gpt-5.5`. */
+const modelRef = z.string().regex(/^(anthropic|openai):.+$/, "expected provider:model");
 
 export const llmEnv = z.object({
   ANTHROPIC_API_KEY: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
-  OLLAMA_BASE_URL: z.url().default("http://localhost:11434"),
   LLM_CODER: modelRef.default("anthropic:claude-sonnet-5"),
   LLM_SUMMARIZER: modelRef.default("anthropic:claude-haiku-4-5"),
   MAX_HEAL_ROUNDS: z.coerce.number().int().min(0).default(3),

@@ -7,6 +7,16 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "agent:run": "tsx --env-file-if-exists=../../.env src/cli/agent-run.ts"
+  },
+  "dependencies": {
+    "@kiln/llm": "workspace:*",
+    "@kiln/sandbox": "workspace:*",
+    "@kiln/shared": "workspace:*",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
   }
 }
