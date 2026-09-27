@@ -18,7 +18,7 @@ async function setStatus(
 
 /**
  * Return a running main sandbox for the project: reuse it, wake it if
- * suspended, or create one from the warm base snapshot (ADR-007).
+ * suspended, or create one from the warm base snapshot.
  */
 export async function ensureMainSandbox(db: Db, projectId: string, log: Logger): Promise<ProjectSandbox> {
   const [row] = await db

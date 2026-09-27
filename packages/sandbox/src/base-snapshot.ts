@@ -19,7 +19,7 @@ export interface BaseSnapshotRecord {
   timingsMs: Record<string, number>;
 }
 
-/** The template as one gzipped tarball (the file API is slow for many/large files; ADR-011). */
+/** The template as one gzipped tarball (the file API is slow for many/large files). */
 export function templateTarball(): { bytes: Uint8Array; hash: string } {
   const bytes = execFileSync("tar", [
     "czf",
@@ -136,7 +136,7 @@ export async function coldCreateFromTemplate(opts: { name: string; log: Logger; 
   return { ps, timings: t, templateHash: hash };
 }
 
-/** Build the warm base snapshot every new project starts from (ADR-007). */
+/** Build the warm base snapshot every new project starts from. */
 export async function buildBaseSnapshot(log: Logger): Promise<BaseSnapshotRecord> {
   const { ps, timings, templateHash } = await coldCreateFromTemplate({
     name: `kiln-base-${Date.now().toString(36)}`,

@@ -10,7 +10,7 @@ if (existsSync(rootEnv)) process.loadEnvFile(rootEnv);
 const nextConfig: NextConfig = {
   transpilePackages: ["@kiln/db", "@kiln/shared", "@kiln/sandbox"],
   // Native bindings / worker threads: load from node_modules at runtime instead of bundling.
-  // (Production builds use webpack: Turbopack's build tracer chokes on tensorlake's .d.cts files; ADR-019.)
+  // (Production builds use webpack: Turbopack's build tracer chokes on tensorlake's .d.cts files.)
   serverExternalPackages: ["tensorlake", "pino", "pino-pretty", "pg-boss", "postgres"],
   async headers() {
     return [

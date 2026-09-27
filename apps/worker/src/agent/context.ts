@@ -7,7 +7,7 @@ export interface PriorTurn {
 }
 
 /**
- * Context strategy (ADR-015): each turn starts a fresh conversation instead
+ * Context strategy: each turn starts a fresh conversation instead
  * of replaying every past tool call. It carries
  *   - one-line summaries of earlier turns (prompt → what the agent did),
  *   - a compact file tree and the dependency list,

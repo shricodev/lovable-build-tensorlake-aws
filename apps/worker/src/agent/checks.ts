@@ -10,7 +10,7 @@ export interface CheckResult {
 }
 
 /**
- * The "did it work?" gate after the agent says it's done (ADR-009): tsc,
+ * The "did it work?" gate after the agent says it's done: tsc,
  * a production build (to a temp dir so dist/ never lands in git), and a
  * one-shot DOM render. No browser, a few seconds total.
  */

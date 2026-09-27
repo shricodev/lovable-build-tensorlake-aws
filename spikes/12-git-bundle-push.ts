@@ -56,7 +56,7 @@ await s.run(async () => {
     const file = join(mirror, "incoming.bundle");
     writeFileSync(file, bytes);
     // Fully qualified refspec: git 2.55 misresolves a bare "main" when fetching
-    // from an incremental bundle ("cannot lock ref"). See ARTICLE_NOTES.
+    // from an incremental bundle ("cannot lock ref").
     localGit(["fetch", "-q", file, "refs/heads/main:refs/heads/main"]);
     const cred = await repos.credential(repo);
     localGit(["push", "-q", url, "main"], cred.token);

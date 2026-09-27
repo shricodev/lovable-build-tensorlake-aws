@@ -10,7 +10,7 @@ export const DEV_PORT = 5173;
 export const DEV_PROCESS = "vite";
 
 /**
- * Only the npm registry is reachable from project sandboxes (ADR-006).
+ * Only the npm registry is reachable from project sandboxes.
  * Note: `allowInternetAccess: false` would block the allow-listed host too.
  */
 export const NPM_ONLY_NETWORK: NetworkConfig = {
