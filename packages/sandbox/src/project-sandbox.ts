@@ -32,7 +32,7 @@ export interface FileEntry {
 
 export interface PreviewEndpoint {
   url: string;
-  /** Must be sent by the gateway; the sandbox URL is never public (ADR-004). */
+  /** Must be sent by the gateway; the sandbox URL is never public. */
   headers: Record<string, string>;
 }
 

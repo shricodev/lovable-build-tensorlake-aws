@@ -26,7 +26,7 @@ export const installPackages = defineTool({
   async run({ packages, dev }, { sandbox, log }) {
     const problems = packages.map(checkPackageSpec).filter(Boolean);
     if (problems.length) return { isError: true, content: problems.join("\n") };
-    // Every install is logged: install scripts run arbitrary code (see SECURITY.md).
+    // Every install is logged: install scripts run arbitrary code.
     log.info({ packages, dev }, "agent install_packages");
     const r = await sandbox.exec(
       `npm install --no-audit --no-fund --loglevel=error ${dev ? "--save-dev " : ""}${packages.join(" ")}`,

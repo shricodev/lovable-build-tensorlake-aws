@@ -4,7 +4,7 @@ import { z } from "zod";
  * Env config is split into small schemas so each app validates only what it
  * actually uses. The worker doesn't need GitHub OAuth secrets, and the gateway
  * doesn't need LLM keys. Keeping secrets out of processes that don't need them
- * is part of the security story (see docs/SECURITY.md).
+ * is part of the security story.
  */
 
 const bool = z.enum(["true", "false", "1", "0"]).transform((v) => v === "true" || v === "1");

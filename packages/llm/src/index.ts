@@ -9,7 +9,7 @@ export { AnthropicProvider, OpenAIProvider };
 
 /**
  * Build a provider from a `provider:model` ref (from env, e.g. LLM_CODER).
- * Ollama was dropped for the demo (ADR-014); adding it back is one adapter
+ * Ollama was dropped for the demo; adding it back is one adapter
  * against its OpenAI-compatible endpoint.
  */
 export function createProvider(

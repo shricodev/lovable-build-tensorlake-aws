@@ -3,7 +3,7 @@ import { APP_DIR } from "./config";
 import { SandboxPathError } from "./errors";
 
 /**
- * Step 1 of path safety (ADR-010): purely lexical checks in the worker.
+ * Step 1 of path safety: purely lexical checks in the worker.
  * Accepts project-relative paths like "src/App.tsx" or "./src" and returns the
  * absolute sandbox path. Step 2 (`realpath` inside the sandbox) catches
  * symlink escapes, which the Tensorlake file API would otherwise follow.

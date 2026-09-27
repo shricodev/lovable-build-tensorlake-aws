@@ -1,5 +1,5 @@
 /**
- * Preview Gateway (ADR-004). Maps `<projectId>.preview.localhost:4000` to the
+ * Preview Gateway. Maps `<projectId>.preview.localhost:4000` to the
  * project's sandbox dev server on the Tensorlake port proxy, adding the API key
  * server-side so sandbox URLs never need to be public. Proxies HTTP and
  * WebSocket (Vite HMR). Runs on its own origin, so a generated app can never

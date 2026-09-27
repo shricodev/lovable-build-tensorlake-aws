@@ -149,7 +149,7 @@ async function finishRun(db: Db, runId: string, values: Partial<typeof runs.$inf
     .where(eq(runs.id, runId));
 }
 
-/** Earlier successful turns as prompt → summary pairs (ADR-015). */
+/** Earlier successful turns as prompt → summary pairs. */
 async function loadPriorTurns(db: Db, projectId: string, currentRunId: string): Promise<PriorTurn[]> {
   const rows = await db
     .select({ runId: runs.id, summary: runs.summary, prompt: messages.content })

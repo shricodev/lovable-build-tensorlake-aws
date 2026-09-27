@@ -24,6 +24,6 @@ export function getBoss(url = process.env.DATABASE_URL): Promise<PgBoss> {
 export async function enqueueAgentTurn(job: AgentTurnJob) {
   const boss = await getBoss();
   // Agent turns are not retried automatically: a half-finished turn needs a
-  // human decision, and the run row records what happened (ADR-017).
+  // human decision, and the run row records what happened.
   return boss.send(QUEUES.agentTurn, job, { retryLimit: 0, expireInSeconds: 30 * 60 });
 }

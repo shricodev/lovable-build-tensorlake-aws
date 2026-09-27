@@ -19,7 +19,7 @@ services:
 
   # S3-compatible storage for local dev. The official minio/minio image was
   # pulled from Docker Hub in 2025; pgsty/minio is a maintained build of the
-  # same server. See docs/DECISIONS.md (ADR-003).
+  # same server.
   minio:
     image: pgsty/minio:latest
     command: ["server", "/data", "--console-address", ":9001"]

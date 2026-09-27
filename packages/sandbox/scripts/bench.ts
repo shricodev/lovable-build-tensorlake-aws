@@ -108,7 +108,7 @@ try {
   }
 } finally {
   for (const ps of cleanup) await ps.terminate().catch(() => {});
-  // copy() and suspend() leave implicit memory snapshots behind (TENSORLAKE_NOTES gotcha 5).
+  // copy() and suspend() leave implicit memory snapshots behind.
   for (const p of cleanup) created.add(p.id);
   for (const s of await import("tensorlake").then((m) => m.Sandbox.listSnapshots())) {
     if (s.snapshotId !== base.snapshotId && (created.has(s.sandboxId) || s.snapshotId.includes(stamp))) {
