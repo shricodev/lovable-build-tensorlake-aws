@@ -11,6 +11,7 @@ import { previewUrlFor } from "@kiln/sandbox";
 import { createLogger } from "@kiln/shared";
 import { createProxyServer } from "http-proxy-3";
 import { busyPage, noPreviewPage, notFoundPage, wakingPage } from "./pages";
+import { PUBLISHED_HOST_RE, servePublished } from "./published";
 import { handleTerminalUpgrade } from "./terminal";
 import { wake } from "./wake";
 
@@ -85,6 +86,9 @@ function scrub(req: http.IncomingMessage) {
 }
 
 const server = http.createServer(async (req, res) => {
+  const published = PUBLISHED_HOST_RE.exec(req.headers.host ?? "");
+  if (published)
+    return void servePublished(published[1]!, req, res, log).catch(() => res.writeHead(500).end());
   const m = HOST_RE.exec(req.headers.host ?? "");
   if (!m) {
     res.writeHead(404).end("unknown preview host");

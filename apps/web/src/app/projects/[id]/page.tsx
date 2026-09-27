@@ -28,7 +28,12 @@ export default async function ProjectPage(props: PageProps<"/projects/[id]">) {
 
   return (
     <Workspace
-      project={{ id: project.id, name: project.name }}
+      project={{
+        id: project.id,
+        name: project.name,
+        shared: project.visibility === "shared",
+        cloning: !!project.remixedFrom && msgs.length === 0,
+      }}
       messages={msgs.map((m) => ({ id: m.id, role: m.role, content: m.content, runId: m.runId }))}
       activeRunId={active}
       lastSuggestions={last?.status === "succeeded" ? last.suggestions : []}

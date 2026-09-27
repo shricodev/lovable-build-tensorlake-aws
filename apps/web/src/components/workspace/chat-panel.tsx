@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Square } from "lucide-react";
+import { ArrowUp, Loader2, Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -17,6 +17,7 @@ export interface ChatMessage {
 }
 
 export function ChatPanel(props: {
+  cloning?: boolean;
   messages: ChatMessage[];
   stream: StreamState;
   suggestions: string[];
@@ -75,6 +76,11 @@ export function ChatPanel(props: {
             </div>
           ))}
           {replyIndex === -1 && timeline}
+          {props.cloning && messages.length === 0 && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="size-4 animate-spin" /> Copying the project into your sandbox…
+            </div>
+          )}
           <div ref={bottom} />
         </div>
       </ScrollArea>

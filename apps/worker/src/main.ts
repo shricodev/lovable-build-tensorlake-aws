@@ -1,7 +1,8 @@
 /** Worker process: consumes pg-boss jobs and runs agent turns. */
-import { CANCEL_CHANNEL, getBoss, getDb, QUEUES, type AgentTurnJob } from "@kiln/db";
+import { CANCEL_CHANNEL, getBoss, getDb, QUEUES, type AgentTurnJob, type CloneProjectJob } from "@kiln/db";
 import { createLogger } from "@kiln/shared";
 import { handleAgentTurn } from "./jobs/agent-turn";
+import { handleCloneProject } from "./jobs/clone-project";
 import { reap } from "./jobs/reaper";
 
 const log = createLogger("worker");
@@ -20,6 +21,10 @@ await sql.listen(CANCEL_CHANNEL, (runId) => {
 
 await boss.work<AgentTurnJob>(QUEUES.agentTurn, { localConcurrency: 3 }, async ([job]) => {
   if (job) await handleAgentTurn(job.data, { db, log, cancelSignals });
+});
+
+await boss.work<CloneProjectJob>(QUEUES.cloneProject, { localConcurrency: 2 }, async ([job]) => {
+  if (job) await handleCloneProject(job.data, { db, log });
 });
 
 await boss.schedule(QUEUES.reaper, "* * * * *");

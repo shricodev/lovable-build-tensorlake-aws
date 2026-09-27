@@ -3,7 +3,8 @@ import { commitAll, pushToHostedGit, type ProjectSandbox } from "@kiln/sandbox";
 import type { Logger } from "@kiln/shared";
 import { fileURLToPath } from "node:url";
 
-const DATA_DIR = process.env.KILN_DATA_DIR ?? fileURLToPath(new URL("../../../.kiln", import.meta.url));
+export const DATA_DIR =
+  process.env.KILN_DATA_DIR ?? fileURLToPath(new URL("../../../.kiln", import.meta.url));
 
 /** Commit the turn's changes as a new version, then push history to hosted Git in the background. */
 export async function saveVersion(opts: {

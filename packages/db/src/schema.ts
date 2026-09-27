@@ -62,6 +62,8 @@ export const projects = pgTable(
     thumbnailKey: text("thumbnail_key"),
     /** Tensorlake hosted Git repo holding this project's history. */
     gitRepo: text("git_repo"),
+    /** Set on remixes/duplicates. */
+    remixedFrom: uuid("remixed_from"),
     createdAt: createdAt(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
     deletedAt: timestamp("deleted_at", { withTimezone: true }),
@@ -212,7 +214,20 @@ export const ptySessions = pgTable("pty_sessions", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+/** A project's static build on S3, served by the gateway on its own origin. */
+export const publishedSites = pgTable("published_sites", {
+  projectId: uuid("project_id")
+    .primaryKey()
+    .references(() => projects.id, { onDelete: "cascade" }),
+  slug: text("slug").notNull().unique(),
+  versionId: uuid("version_id").references(() => versions.id, { onDelete: "set null" }),
+  s3Prefix: text("s3_prefix").notNull(),
+  fileCount: integer("file_count").notNull(),
+  publishedAt: timestamp("published_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export type Version = typeof versions.$inferSelect;
+export type PublishedSite = typeof publishedSites.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type Project = typeof projects.$inferSelect;
 export type Sandbox = typeof sandboxes.$inferSelect;

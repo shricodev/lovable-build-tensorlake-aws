@@ -15,6 +15,7 @@
     "@kiln/db": "workspace:*",
     "@kiln/sandbox": "workspace:*",
     "@kiln/shared": "workspace:*",
+    "@kiln/storage": "workspace:*",
     "http-proxy-3": "^2.0.1",
     "tensorlake": "0.5.135",
     "ws": "^8.22.0"

@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
-import { MoreHorizontal, Pencil, Search, Trash2 } from "lucide-react";
+import { Copy, MoreHorizontal, Pencil, Search, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -44,6 +44,13 @@ export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
     });
     if (!res.ok) return toast.error("Couldn't rename the project");
     router.refresh();
+  }
+
+  async function duplicate(p: ProjectSummary) {
+    const res = await fetch(`/api/projects/${p.id}/remix`, { method: "POST" });
+    const data = (await res.json().catch(() => ({}))) as { id?: string; error?: string };
+    if (!res.ok || !data.id) return toast.error(data.error ?? "Couldn't duplicate the project");
+    router.push(`/projects/${data.id}`);
   }
 
   async function remove(p: ProjectSummary) {
@@ -114,6 +121,9 @@ export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem onClick={() => void rename(p)}>
                       <Pencil className="size-4" /> Rename
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => void duplicate(p)}>
+                      <Copy className="size-4" /> Duplicate
                     </DropdownMenuItem>
                     <DropdownMenuItem variant="destructive" onClick={() => void remove(p)}>
                       <Trash2 className="size-4" /> Delete

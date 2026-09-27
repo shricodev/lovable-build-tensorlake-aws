@@ -15,6 +15,13 @@
       "when": 1790524693703,
       "tag": "0001_versions_pty",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790527299968,
+      "tag": "0002_publish_remix",
+      "breakpoints": true
     }
   ]
 }

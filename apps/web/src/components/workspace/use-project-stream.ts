@@ -141,6 +141,7 @@ export function useProjectStream(
     onRunDone?: (status: string) => void;
     onSandboxRunning?: (wakeMs?: number) => void;
     onVersion?: (v: VersionEvent) => void;
+    onCloneDone?: () => void;
   },
 ) {
   const [state, dispatch] = useReducer(reduce, {
@@ -180,6 +181,7 @@ export function useProjectStream(
           if (e.type === "sandbox_status" && e.payload.status === "running")
             h.current.onSandboxRunning?.(e.payload.wakeMs as number | undefined);
           if (e.type === "version") h.current.onVersion?.(e.payload as unknown as VersionEvent);
+          if (e.type === "clone_done") h.current.onCloneDone?.();
         }
       };
       es.onerror = () => {

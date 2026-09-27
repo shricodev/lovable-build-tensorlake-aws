@@ -1,12 +1,11 @@
 import { and, eq, getDb, projects, versions } from "@kiln/db";
-import { Storage, storageKeys } from "@kiln/storage";
+import { storageKeys } from "@kiln/storage";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { HttpError, ownedProject, parseBody, route } from "@/server/api";
+import { storage } from "@/server/storage";
 
 type Ctx = RouteContext<"/api/projects/[id]/thumbnail">;
-const g = globalThis as unknown as { __kilnStorage?: Storage };
-const storage = () => (g.__kilnStorage ??= new Storage());
 
 const Body = z.object({
   versionId: z.string().uuid(),
