@@ -31,18 +31,18 @@ pnpm eval               # every fixture × Claude Sonnet 5 and GPT-5.5; JSON + H
 
 ## Repository layout
 
-| Path               | What                                                                   |
-| ------------------ | ---------------------------------------------------------------------- |
-| `apps/web`         | Next.js UI, auth, APIs, SSE, published-site serving                    |
-| `apps/worker`      | pg-boss jobs: agent loop, heal loop, variants, export, publish, reaper |
-| `apps/gateway`     | preview reverse proxy (HTTP + WebSocket), wake-on-request              |
-| `packages/sandbox` | the only code that talks to Tensorlake                                 |
-| `packages/llm`     | Anthropic / OpenAI / Ollama behind one interface                       |
-| `packages/db`      | Drizzle schema, migrations, queries                                    |
-| `packages/storage` | the only code that talks to S3                                         |
-| `packages/shared`  | env validation, logging, errors, retry                                 |
-| `spikes/`          | Phase 0 capability proofs against real Tensorlake                      |
-| `infra/`           | docker compose, S3 setup + IAM policy, sandbox image                   |
+| Path               | What                                                                          |
+| ------------------ | ----------------------------------------------------------------------------- |
+| `apps/web`         | Next.js UI, auth, APIs, SSE, published-site serving                           |
+| `apps/worker`      | pg-boss jobs: agent turns (with heal loop), remix/duplicate, reaper; eval CLI |
+| `apps/gateway`     | preview reverse proxy (HTTP + WebSocket), wake-on-request                     |
+| `packages/sandbox` | the only code that talks to Tensorlake                                        |
+| `packages/llm`     | Anthropic / OpenAI / Ollama behind one interface                              |
+| `packages/db`      | Drizzle schema, migrations, queries                                           |
+| `packages/storage` | the only code that talks to S3                                                |
+| `packages/shared`  | env validation, logging, errors, retry                                        |
+| `spikes/`          | Phase 0 capability proofs against real Tensorlake                             |
+| `infra/`           | docker compose, S3 setup + IAM policy, sandbox image                          |
 
 ## Storage layout (one private bucket)
 
