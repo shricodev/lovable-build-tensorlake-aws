@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { promisify } from "node:util";
 import { RepositoryClient } from "tensorlake";
@@ -137,4 +137,62 @@ export async function pushToHostedGit(ps: ProjectSandbox, repo: string, dataDir:
 
 export async function deleteHostedRepo(repo: string) {
   await new RepositoryClient().delete(repo).catch(() => {});
+}
+
+/**
+ * Bring the local bare mirror of a hosted repo up to date (creating it if
+ * needed) and return a bundle of its `main`, ready to load into a sandbox.
+ */
+export async function bundleFromHostedGit(repo: string, dataDir: string): Promise<Uint8Array> {
+  const repos = new RepositoryClient();
+  const mirror = join(dataDir, "git", `${repo}.git`);
+  if (!existsSync(mirror)) {
+    mkdirSync(mirror, { recursive: true });
+    await run("git", ["init", "-q", "--bare", mirror]);
+  }
+  const cred = await repos.credential(repo);
+  const auth = Buffer.from(`${cred.gitUsername}:${cred.token}`).toString("base64");
+  await run("git", [
+    "-C",
+    mirror,
+    "-c",
+    `http.extraHeader=Authorization: Basic ${auth}`,
+    "fetch",
+    "-q",
+    "--force",
+    await repos.url(repo),
+    "+refs/heads/main:refs/heads/main",
+  ]);
+  const file = join(mirror, "outgoing.bundle");
+  await run("git", ["-C", mirror, "bundle", "create", "-q", file, "main"]);
+  return new Uint8Array(readFileSync(file));
+}
+
+/**
+ * Replace the sandbox project's tree and history with a bundle's `main`
+ * (used by remix/duplicate). Reinstalls dependencies when package.json differs.
+ */
+export async function loadBundle(
+  ps: ProjectSandbox,
+  bundle: Uint8Array,
+): Promise<{ sha: string; files: string[] }> {
+  await ps.sb.writeFile("/tmp/source.bundle", bundle);
+  const out = await git(
+    ps,
+    `before=$(git rev-parse HEAD)
+git fetch -q /tmp/source.bundle +refs/heads/main:refs/remotes/source/main
+git reset -q --hard source/main
+git clean -fdq
+if git diff --quiet "$before" HEAD -- package.json package-lock.json; then echo SAME; else echo DEPS; fi
+git rev-parse HEAD
+git ls-files`,
+    {},
+    120,
+  );
+  const [deps, sha, ...files] = out.trim().split("\n");
+  if (deps === "DEPS") {
+    const r = await ps.exec("npm install --no-audit --no-fund --loglevel=error", { timeoutSecs: 240 });
+    if (r.exitCode !== 0) throw new SandboxError("npm_failed", `npm install failed: ${r.stderr.slice(-500)}`);
+  }
+  return { sha: sha!, files: files.filter((f) => f && !f.startsWith("kiln/")) };
 }

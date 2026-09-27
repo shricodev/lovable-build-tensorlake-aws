@@ -1,9 +1,14 @@
 import { PgBoss } from "pg-boss";
 
-export const QUEUES = { agentTurn: "agent-turn", reaper: "reaper" } as const;
+export const QUEUES = { agentTurn: "agent-turn", reaper: "reaper", cloneProject: "clone-project" } as const;
 
 export interface AgentTurnJob {
   runId: string;
+}
+
+export interface CloneProjectJob {
+  sourceProjectId: string;
+  targetProjectId: string;
 }
 
 const g = globalThis as unknown as { __kilnBoss?: Promise<PgBoss> };
@@ -26,4 +31,9 @@ export async function enqueueAgentTurn(job: AgentTurnJob) {
   // Agent turns are not retried automatically: a half-finished turn needs a
   // human decision, and the run row records what happened.
   return boss.send(QUEUES.agentTurn, job, { retryLimit: 0, expireInSeconds: 30 * 60 });
+}
+
+export async function enqueueCloneProject(job: CloneProjectJob) {
+  const boss = await getBoss();
+  return boss.send(QUEUES.cloneProject, job, { retryLimit: 1, expireInSeconds: 10 * 60 });
 }

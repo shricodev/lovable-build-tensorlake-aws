@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -15,6 +15,8 @@ import { ChatPanel, type ChatMessage } from "./chat-panel";
 import { CodePanel } from "./code-panel";
 import { LogsPanel } from "./logs-panel";
 import { PreviewPanel } from "./preview-panel";
+import { PublishDialog } from "./publish-dialog";
+import { ShareDialog } from "./share-dialog";
 import { TerminalPanel } from "./terminal-panel";
 import { useProjectStream, type VersionEvent } from "./use-project-stream";
 import { VersionsSheet } from "./versions-sheet";
@@ -34,7 +36,7 @@ const layoutStorage = {
 };
 
 export interface WorkspaceProps {
-  project: { id: string; name: string };
+  project: { id: string; name: string; shared: boolean; cloning: boolean };
   messages: ChatMessage[];
   activeRunId: string | null;
   lastSuggestions: string[];
@@ -52,6 +54,16 @@ export function Workspace(props: WorkspaceProps) {
   const [model, setModel] = useState(MODELS[0]!.ref);
   const [terminalOpened, setTerminalOpened] = useState(false);
   const [versionsKey, setVersionsKey] = useState(0);
+  const [exporting, setExporting] = useState(false);
+
+  async function exportZip() {
+    setExporting(true);
+    const res = await fetch(`/api/projects/${project.id}/export`, { method: "POST" });
+    const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+    setExporting(false);
+    if (!res.ok || !data.url) return toast.error(data.error ?? "Export failed");
+    window.location.href = data.url;
+  }
   const layout = useDefaultLayout({ id: "kiln-workspace", storage: layoutStorage });
 
   useEffect(() => {
@@ -73,6 +85,10 @@ export function Workspace(props: WorkspaceProps) {
       onSandboxRunning: (wakeMs) => {
         setReloadKey((k) => k + 1);
         if (wakeMs) toast(`Sandbox woke up in ${(wakeMs / 1000).toFixed(1)}s`);
+      },
+      onCloneDone: () => {
+        router.refresh();
+        setReloadKey((k) => k + 1);
       },
       onVersion: (v) => {
         setVersionsKey((k) => k + 1);
@@ -184,6 +200,17 @@ export function Workspace(props: WorkspaceProps) {
         {!stream.connected && <span className="text-xs text-muted-foreground">Reconnecting…</span>}
         <div className="ml-auto flex items-center gap-2">
           <VersionsSheet projectId={project.id} busy={stream.running} refreshKey={versionsKey} />
+          <ShareDialog projectId={project.id} initialShared={project.shared} />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8"
+            onClick={() => void exportZip()}
+            disabled={exporting}
+            aria-label="Download source as ZIP"
+          >
+            {exporting ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
+          </Button>
           <select
             value={model}
             onChange={(e) => {
@@ -200,6 +227,7 @@ export function Workspace(props: WorkspaceProps) {
             ))}
           </select>
           <ThemeToggle />
+          <PublishDialog projectId={project.id} busy={stream.running} />
         </div>
       </header>
 

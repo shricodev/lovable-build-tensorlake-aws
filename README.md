@@ -2,7 +2,7 @@
 
 An AI app builder in the spirit of Lovable, Bolt.new and v0: describe an app, an agent writes it inside an isolated [Tensorlake](https://tensorlake.ai) sandbox, fixes its own errors, and shows a live preview. Iterate by chat, roll back any version, explore variants, publish.
 
-> **Status:** Phase 4: versions (history, diff, restore), terminal, sandbox sleep/wake, concurrency queue, thumbnails.
+> **Status:** Phase 6: versions, terminal, sleep/wake, concurrency queue, share + remix, ZIP export, publishing to S3.
 
 ## Local setup
 
@@ -19,7 +19,7 @@ pnpm sandbox:bench -- --keep   # cold vs snapshot vs fork timings; leaves one pr
 pnpm agent:run --fixture habit-tracker   # one full agent turn (or: pnpm agent:run "a pomodoro timer")
 ```
 
-Open http://localhost:3000 and sign in with the dev login (any username). Previews are served from `http://<project-id>.preview.localhost:4000` (a separate origin; `*.localhost` resolves to 127.0.0.1 in modern browsers).
+Open http://localhost:3000 and sign in with the dev login (any username). Previews are served from `http://<project-id>.preview.localhost:4000` and published sites from `http://<slug>.app.localhost:4000`, each on its own origin (`*.localhost` resolves to 127.0.0.1 in modern browsers).
 
 Useful URLs: MinIO console http://localhost:9001 (kiln / kiln-dev-secret), Jaeger http://localhost:16686.
 

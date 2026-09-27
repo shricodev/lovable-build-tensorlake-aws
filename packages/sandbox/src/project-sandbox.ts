@@ -221,6 +221,15 @@ export class ProjectSandbox {
     return dec.decode(bytes);
   }
 
+  /** Raw bytes (for binary build output such as images and fonts). */
+  async readBytes(relPath: string): Promise<Uint8Array> {
+    const abs = await this.safePath(relPath, { allowProtected: true });
+    return call("readBytes", TIMEOUTS.file, () => this.sb.readFile(abs), {
+      retry: true,
+      context: { path: relPath },
+    });
+  }
+
   async writeFile(relPath: string, content: string): Promise<void> {
     const bytes = enc.encode(content);
     if (bytes.length > MAX_WRITE_BYTES) {
