@@ -1,0 +1,50 @@
+# Local infrastructure for Kiln. App services (web, worker, gateway) are added
+# in Phase 3; until then run them with `pnpm dev` against these containers.
+name: kiln
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: kiln
+      POSTGRES_PASSWORD: kiln
+      POSTGRES_DB: kiln
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kiln -d kiln"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  # S3-compatible storage for local dev. The official minio/minio image was
+  # pulled from Docker Hub in 2025; pgsty/minio is a maintained build of the
+  # same server. See docs/DECISIONS.md (ADR-003).
+  minio:
+    image: pgsty/minio:latest
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: kiln
+      MINIO_ROOT_PASSWORD: kiln-dev-secret
+    ports: ["9000:9000", "9001:9001"]
+    volumes: [miniodata:/data]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:9000/minio/health/live"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  jaeger:
+    image: jaegertracing/jaeger:latest
+    ports:
+      - "16686:16686" # UI
+      - "4318:4318" # OTLP over HTTP
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:16686"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pgdata:
+  miniodata:
