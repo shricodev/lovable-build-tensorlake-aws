@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.next/
+.turbo/
+.env
+.env.*
+!.env.example
+.kiln/
+*.log
+coverage/
+spikes/out/
