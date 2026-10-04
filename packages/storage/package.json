@@ -1,5 +1,5 @@
 {
-  "name": "@kiln/storage",
+  "name": "@lovable-diy/storage",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,6 +13,6 @@
     "@aws-sdk/client-s3": "^3.1141.0",
     "@aws-sdk/lib-storage": "^3.1141.0",
     "@aws-sdk/s3-request-presigner": "^3.1141.0",
-    "@kiln/shared": "workspace:*"
+    "@lovable-diy/shared": "workspace:*"
   }
 }

@@ -151,7 +151,7 @@ export function CodePanel({
         <div className="flex h-9 items-center justify-between border-b px-3 text-xs text-muted-foreground">
           <span className="truncate font-mono">{open ?? "Select a file"}</span>
           <div className="flex items-center gap-2">
-            {readOnly && <span>Read-only while Kiln is working</span>}
+            {readOnly && <span>Read-only while Lovable DIY is working</span>}
             {open && !readOnly && (
               <Button
                 size="sm"

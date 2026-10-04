@@ -17,8 +17,8 @@ console.log(
 );
 if (process.argv.includes("--clean")) {
   for (const s of live)
-    if (s.name?.startsWith("kiln-spike"))
+    if (s.name?.startsWith("lovable-diy-spike"))
       await (await Sandbox.connect({ sandboxId: s.sandboxId })).terminate();
-  for (const r of repos) if (r.name.startsWith("kiln-spike")) await new RepositoryClient().delete(r.name);
-  console.log("cleaned kiln-spike* sandboxes and repos");
+  for (const r of repos) if (r.name.startsWith("lovable-diy-spike")) await new RepositoryClient().delete(r.name);
+  console.log("cleaned lovable-diy-spike* sandboxes and repos");
 }

@@ -1,4 +1,4 @@
-import { getDb, users } from "@kiln/db";
+import { getDb, users } from "@lovable-diy/db";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";

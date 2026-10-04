@@ -1,5 +1,5 @@
 /**
- * Every object key Kiln writes is built here, so the bucket layout lives in
+ * Every object key Lovable DIY writes is built here, so the bucket layout lives in
  * one place (it's also documented in README "Storage layout").
  */
 

@@ -11,11 +11,11 @@ export interface CloneProjectJob {
   targetProjectId: string;
 }
 
-const g = globalThis as unknown as { __kilnBoss?: Promise<PgBoss> };
+const g = globalThis as unknown as { __lovableDiyBoss?: Promise<PgBoss> };
 
 /** Started pg-boss singleton (shares Postgres with the app; tables live in the `pgboss` schema). */
 export function getBoss(url = process.env.DATABASE_URL): Promise<PgBoss> {
-  g.__kilnBoss ??= (async () => {
+  g.__lovableDiyBoss ??= (async () => {
     if (!url) throw new Error("DATABASE_URL is not set");
     const boss = new PgBoss(url);
     boss.on("error", (err) => console.error("[pg-boss]", err));
@@ -23,7 +23,7 @@ export function getBoss(url = process.env.DATABASE_URL): Promise<PgBoss> {
     for (const q of Object.values(QUEUES)) await boss.createQueue(q).catch(() => {});
     return boss;
   })();
-  return g.__kilnBoss;
+  return g.__lovableDiyBoss;
 }
 
 export async function enqueueAgentTurn(job: AgentTurnJob) {

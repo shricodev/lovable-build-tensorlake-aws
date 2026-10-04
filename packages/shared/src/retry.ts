@@ -4,7 +4,7 @@ export interface RetryOptions {
   attempts?: number;
   baseDelayMs?: number;
   maxDelayMs?: number;
-  /** Decide whether an error is transient. Defaults to `KilnError.retryable`. */
+  /** Decide whether an error is transient. Defaults to `LovableDiyError.retryable`. */
   shouldRetry?: (err: unknown) => boolean;
   onRetry?: (err: unknown, attempt: number, delayMs: number) => void;
   signal?: AbortSignal;

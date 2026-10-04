@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { authProviders, signIn } from "@/auth";
+import { CreatorCredit } from "@/components/app/creator-credit";
 import { Logo } from "@/components/app/logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,7 +20,7 @@ export default async function LoginPage() {
         <Card>
           <CardHeader>
             <CardTitle>Sign in</CardTitle>
-            <CardDescription>Describe an app, watch it get built, keep iterating.</CardDescription>
+            <CardDescription>Build an app and edit it through chat.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {authProviders.github && (
@@ -77,6 +78,7 @@ export default async function LoginPage() {
             )}
           </CardContent>
         </Card>
+        <CreatorCredit className="text-center" />
       </div>
     </main>
   );

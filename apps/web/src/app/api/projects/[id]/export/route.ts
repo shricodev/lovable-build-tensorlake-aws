@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { storageKeys } from "@kiln/storage";
+import { storageKeys } from "@lovable-diy/storage";
 import { NextResponse } from "next/server";
 import { HttpError, ownedProject, route } from "@/server/api";
 import { projectSandbox } from "@/server/sandbox";
@@ -18,11 +18,11 @@ export const POST = route<RouteContext<"/api/projects/[id]/export">>(async (_req
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "") || "app";
   const r = await ps.exec(
-    `ref=$(git stash create 2>/dev/null); git archive --format=zip --prefix="$NAME/" -o /tmp/kiln-export.zip "\${ref:-HEAD}"`,
+    `ref=$(git stash create 2>/dev/null); git archive --format=zip --prefix="$NAME/" -o /tmp/lovable-diy-export.zip "\${ref:-HEAD}"`,
     { env: { NAME: name }, timeoutSecs: 60 },
   );
   if (r.exitCode !== 0) throw new HttpError(500, "Couldn't package the project");
-  const zip = await ps.sb.readFile("/tmp/kiln-export.zip");
+  const zip = await ps.sb.readFile("/tmp/lovable-diy-export.zip");
   const key = storageKeys.export(p.id, randomUUID());
   await storage().put(key, zip, "application/zip");
   const url = await storage().presignGet(key, 900, `${name}.zip`);

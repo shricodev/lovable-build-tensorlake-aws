@@ -1,7 +1,7 @@
 import "server-only";
-import { and, appendEvent, eq, getDb, sandboxes, tryAcquireSlot } from "@kiln/db";
-import { ProjectSandbox } from "@kiln/sandbox";
-import { createLogger } from "@kiln/shared";
+import { and, appendEvent, eq, getDb, sandboxes, tryAcquireSlot } from "@lovable-diy/db";
+import { ProjectSandbox } from "@lovable-diy/sandbox";
+import { createLogger } from "@lovable-diy/shared";
 import { HttpError } from "./api";
 
 const log = createLogger("web", { transport: undefined });

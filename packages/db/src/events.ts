@@ -2,9 +2,9 @@ import type { Db } from "./client";
 import { runEvents } from "./schema";
 
 /** Postgres channel that announces new rows in run_events: payload `{ projectId, id }`. */
-export const EVENTS_CHANNEL = "kiln_events";
+export const EVENTS_CHANNEL = "lovable_diy_events";
 /** Channel the web app uses to ask the worker to cancel a run: payload = run id. */
-export const CANCEL_CHANNEL = "kiln_cancel";
+export const CANCEL_CHANNEL = "lovable_diy_cancel";
 
 export async function appendEvent(
   db: Db,

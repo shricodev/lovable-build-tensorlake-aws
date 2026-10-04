@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { KilnError } from "@kiln/shared";
+import { LovableDiyError } from "@lovable-diy/shared";
 import type { AssistantMessage, ChatRequest, ChatResult, LlmMessage, LlmProvider, StopReason } from "./types";
 
 export class AnthropicProvider implements LlmProvider {
@@ -118,13 +118,13 @@ function mapStop(s: Anthropic.Message["stop_reason"]): StopReason {
 function wrap(err: unknown): unknown {
   if (err instanceof Anthropic.APIUserAbortError) return err;
   if (err instanceof Anthropic.AuthenticationError) {
-    return new KilnError("llm_auth", "Anthropic rejected the API key", {
+    return new LovableDiyError("llm_auth", "Anthropic rejected the API key", {
       userMessage: "The AI provider key is invalid.",
       cause: err,
     });
   }
   if (err instanceof Anthropic.RateLimitError) {
-    return new KilnError("llm_rate_limited", err.message, {
+    return new LovableDiyError("llm_rate_limited", err.message, {
       userMessage: "The AI provider is busy. Try again shortly.",
       retryable: true,
       cause: err,
@@ -132,7 +132,7 @@ function wrap(err: unknown): unknown {
   }
   if (err instanceof Anthropic.APIError) {
     const retryable = err.status === undefined || err.status >= 500;
-    return new KilnError("llm_error", `Anthropic API error ${err.status}: ${err.message}`, {
+    return new LovableDiyError("llm_error", `Anthropic API error ${err.status}: ${err.message}`, {
       retryable,
       cause: err,
     });

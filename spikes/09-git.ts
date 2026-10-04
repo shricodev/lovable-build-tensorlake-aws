@@ -11,7 +11,7 @@ const s = spike("09-git");
 const repos = new RepositoryClient();
 
 await s.run(async () => {
-  const repo = uniq("kiln-spike09");
+  const repo = uniq("lovable-diy-spike09");
   const handle = await s.step("create repo", () => repos.create(repo, { defaultBranch: "main" }));
   s.note("repoHandle", handle);
   s.onCleanup(() => repos.delete(repo));
@@ -27,7 +27,7 @@ await s.run(async () => {
   });
 
   const sb = s.track(
-    (await s.step("create sandbox", () => Sandbox.create({ name: uniq("kiln-spike09"), timeoutSecs: 300 })))!,
+    (await s.step("create sandbox", () => Sandbox.create({ name: uniq("lovable-diy-spike09"), timeoutSecs: 300 })))!,
   );
   const git = (cmd: string, env: Record<string, string> = {}) =>
     sb.run("bash", { args: ["-lc", `cd /home/tl-user/app && ${cmd}`], env, timeout: 60 });
@@ -37,7 +37,7 @@ await s.run(async () => {
     git(
       [
         "git init -q -b main",
-        "git config user.email kiln@local && git config user.name Kiln",
+        "git config user.email lovable-diy@local && git config user.name Lovable DIY",
         "echo 'v1' > README.md && git add -A && git commit -qm 'Version 1'",
         "echo 'v2' >> README.md && echo 'x' > new.txt && git add -A && git commit -qm 'Version 2'",
         "git log --oneline",

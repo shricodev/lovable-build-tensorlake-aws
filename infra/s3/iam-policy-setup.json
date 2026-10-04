@@ -2,7 +2,7 @@
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "KilnBucketBootstrapOnly",
+      "Sid": "LovableDiyBucketBootstrapOnly",
       "Effect": "Allow",
       "Action": [
         "s3:CreateBucket",
@@ -10,7 +10,7 @@
         "s3:PutLifecycleConfiguration",
         "s3:PutBucketCORS"
       ],
-      "Resource": "arn:aws:s3:::KILN_BUCKET_NAME"
+      "Resource": "arn:aws:s3:::LOVABLE_DIY_BUCKET_NAME"
     }
   ]
 }

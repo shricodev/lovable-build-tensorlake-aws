@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { KilnError } from "@kiln/shared";
+import { LovableDiyError } from "@lovable-diy/shared";
 import type { ChatRequest, ChatResult, LlmMessage, LlmProvider, StopReason } from "./types";
 
 type ChatMessage = OpenAI.Chat.Completions.ChatCompletionMessageParam;
@@ -160,13 +160,13 @@ function safeJson(s: string): unknown {
 function wrap(err: unknown): unknown {
   if (err instanceof OpenAI.APIUserAbortError) return err;
   if (err instanceof OpenAI.AuthenticationError) {
-    return new KilnError("llm_auth", "OpenAI rejected the API key", {
+    return new LovableDiyError("llm_auth", "OpenAI rejected the API key", {
       userMessage: "The AI provider key is invalid.",
       cause: err,
     });
   }
   if (err instanceof OpenAI.RateLimitError) {
-    return new KilnError("llm_rate_limited", err.message, {
+    return new LovableDiyError("llm_rate_limited", err.message, {
       userMessage: "The AI provider is busy. Try again shortly.",
       retryable: true,
       cause: err,
@@ -174,7 +174,7 @@ function wrap(err: unknown): unknown {
   }
   if (err instanceof OpenAI.APIError) {
     const retryable = err.status === undefined || err.status >= 500;
-    return new KilnError("llm_error", `OpenAI API error ${err.status}: ${err.message}`, {
+    return new LovableDiyError("llm_error", `OpenAI API error ${err.status}: ${err.message}`, {
       retryable,
       cause: err,
     });

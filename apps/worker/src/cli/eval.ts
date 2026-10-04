@@ -2,16 +2,16 @@
  * `pnpm eval [--models a,b] [--fixtures id,id]`: run each fixture through a
  * full agent turn per model, in fresh sandboxes, and report build/render
  * success, heal rounds, time, tokens and cost. Writes JSON + HTML to
- * .kiln/evals/<id>/ and uploads both to S3 under evals/<id>/.
+ * .lovable-diy/evals/<id>/ and uploads both to S3 under evals/<id>/.
  */
 import { randomUUID } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { parseArgs } from "node:util";
-import { createProvider } from "@kiln/llm";
-import { ProjectSandbox } from "@kiln/sandbox";
-import { readBaseSnapshot } from "@kiln/sandbox/base";
-import { createLogger } from "@kiln/shared";
-import { Storage, storageKeys } from "@kiln/storage";
+import { createProvider } from "@lovable-diy/llm";
+import { ProjectSandbox } from "@lovable-diy/sandbox";
+import { readBaseSnapshot } from "@lovable-diy/sandbox/base";
+import { createLogger } from "@lovable-diy/shared";
+import { Storage, storageKeys } from "@lovable-diy/storage";
 import { runAgentTurn } from "../agent/loop";
 
 interface Fixture {
@@ -60,7 +60,7 @@ async function runOne({ model, fixture }: { model: string; fixture: Fixture }): 
   try {
     sandbox = await ProjectSandbox.createFromSnapshot({
       snapshotId: base!.snapshotId,
-      name: `kiln-eval-${randomUUID().slice(0, 8)}`,
+      name: `lovable-diy-eval-${randomUUID().slice(0, 8)}`,
       log,
     });
     const r = await runAgentTurn({ sandbox, llm: createProvider(model), prompt: fixture.prompt, log });
@@ -148,7 +148,7 @@ const report = {
   summary,
   results,
 };
-const dir = new URL(`../../../../.kiln/evals/${evalId}/`, import.meta.url);
+const dir = new URL(`../../../../.lovable-diy/evals/${evalId}/`, import.meta.url);
 mkdirSync(dir, { recursive: true });
 const json = JSON.stringify(report, null, 2);
 const html = renderHtml(report);
@@ -160,9 +160,9 @@ try {
   const prefix = storageKeys.evalPrefix(evalId);
   await storage.put(`${prefix}results.json`, json, "application/json");
   await storage.put(`${prefix}report.html`, html, "text/html; charset=utf-8");
-  console.log(`\nReport: .kiln/evals/${evalId}/report.html (uploaded to s3://${storage.bucket}/${prefix})`);
+  console.log(`\nReport: .lovable-diy/evals/${evalId}/report.html (uploaded to s3://${storage.bucket}/${prefix})`);
 } catch (err) {
-  console.log(`\nReport: .kiln/evals/${evalId}/report.html (S3 upload failed: ${(err as Error).message})`);
+  console.log(`\nReport: .lovable-diy/evals/${evalId}/report.html (S3 upload failed: ${(err as Error).message})`);
 }
 process.exit(0);
 
@@ -182,9 +182,9 @@ function renderHtml(r: typeof report) {
         `<tr><td>${esc(s.model)}</td><td>${s.passRate}</td><td>${s.avgSeconds}s</td><td>${s.avgHealRounds}</td><td>$${s.totalCostUsd}</td></tr>`,
     )
     .join("\n");
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Kiln eval ${esc(r.id)}</title>
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Lovable DIY eval ${esc(r.id)}</title>
 <style>body{font:14px/1.5 ui-sans-serif,system-ui,sans-serif;margin:32px;color:#171717}table{border-collapse:collapse;margin:12px 0 28px}
 td,th{border:1px solid #e5e5e5;padding:6px 10px;text-align:left}th{background:#fafafa}.ok{color:#15803d}.bad{color:#b91c1c}h1{font-size:18px}</style></head>
-<body><h1>Kiln eval · ${esc(r.at)}</h1><h2>Summary</h2><table><tr><th>Model</th><th>Pass</th><th>Avg time</th><th>Avg heal rounds</th><th>Cost</th></tr>${sums}</table>
+<body><h1>Lovable DIY eval · ${esc(r.at)}</h1><h2>Summary</h2><table><tr><th>Model</th><th>Pass</th><th>Avg time</th><th>Avg heal rounds</th><th>Cost</th></tr>${sums}</table>
 <h2>Runs</h2><table><tr><th>Fixture</th><th>Model</th><th>Result</th><th>Heal</th><th>Time</th><th>Steps</th><th>Input tokens</th><th>Output tokens</th><th>Cost</th><th>Error</th></tr>${rows}</table></body></html>`;
 }

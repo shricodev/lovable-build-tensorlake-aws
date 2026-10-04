@@ -1,5 +1,5 @@
 import "server-only";
-import { eq, getDb, users, type User } from "@kiln/db";
+import { eq, getDb, users, type User } from "@lovable-diy/db";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 

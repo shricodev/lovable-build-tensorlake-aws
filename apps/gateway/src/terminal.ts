@@ -1,8 +1,8 @@
 import type { IncomingMessage } from "node:http";
 import type { Duplex } from "node:stream";
-import { eq, getDb, ptySessions, sandboxes, and } from "@kiln/db";
-import { ProjectSandbox } from "@kiln/sandbox";
-import { verifyTicket, type Logger } from "@kiln/shared";
+import { eq, getDb, ptySessions, sandboxes, and } from "@lovable-diy/db";
+import { ProjectSandbox } from "@lovable-diy/sandbox";
+import { verifyTicket, type Logger } from "@lovable-diy/shared";
 import type { Pty } from "tensorlake";
 import { WebSocketServer, type WebSocket } from "ws";
 import { wake } from "./wake";

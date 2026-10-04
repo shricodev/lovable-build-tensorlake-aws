@@ -1,6 +1,6 @@
 import "server-only";
-import { KilnError } from "@kiln/shared";
-import { and, eq, getDb, isNull, projects, type Project, type User } from "@kiln/db";
+import { LovableDiyError } from "@lovable-diy/shared";
+import { and, eq, getDb, isNull, projects, type Project, type User } from "@lovable-diy/db";
 import { NextResponse } from "next/server";
 import type { z } from "zod";
 import { currentUser } from "./session";
@@ -23,7 +23,7 @@ export function route<C>(fn: (req: Request, ctx: C, user: User) => Promise<Respo
       return await fn(req, ctx, user);
     } catch (err) {
       if (err instanceof HttpError) return NextResponse.json({ error: err.message }, { status: err.status });
-      if (err instanceof KilnError) {
+      if (err instanceof LovableDiyError) {
         console.error(err);
         return NextResponse.json({ error: err.userMessage }, { status: err.retryable ? 503 : 400 });
       }
@@ -57,7 +57,7 @@ export async function ownedProject(userId: string, projectId: string): Promise<P
 /** Refuse changes to the project while the agent is working on it. */
 export async function assertIdle(projectId: string) {
   const { db } = getDb();
-  const { runs, inArray } = await import("@kiln/db");
+  const { runs, inArray } = await import("@lovable-diy/db");
   const busy = await db
     .select({ id: runs.id })
     .from(runs)

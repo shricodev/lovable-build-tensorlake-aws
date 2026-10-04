@@ -16,7 +16,7 @@ await s.run(async () => {
 
   for (let i = 1; i <= MAX_PROBE; i++) {
     try {
-      const sb = await Sandbox.create({ name: uniq(`kiln-spike10-${i}`), timeoutSecs: 300 });
+      const sb = await Sandbox.create({ name: uniq(`lovable-diy-spike10-${i}`), timeoutSecs: 300 });
       s.track(sb);
       live.push(sb);
       s.note(`create #${i}`, "ok");
@@ -32,7 +32,7 @@ await s.run(async () => {
     await s.step("suspend one running sandbox", () => live[0]!.suspend());
     const again = await s.step(
       "create after suspending one",
-      () => Sandbox.create({ name: uniq("kiln-spike10-after"), timeoutSecs: 300 }),
+      () => Sandbox.create({ name: uniq("lovable-diy-spike10-after"), timeoutSecs: 300 }),
       {
         allowFail: true,
       },

@@ -64,10 +64,10 @@ export function Workspace(props: WorkspaceProps) {
     if (!res.ok || !data.url) return toast.error(data.error ?? "Export failed");
     window.location.href = data.url;
   }
-  const layout = useDefaultLayout({ id: "kiln-workspace", storage: layoutStorage });
+  const layout = useDefaultLayout({ id: "lovable-diy-workspace", storage: layoutStorage });
 
   useEffect(() => {
-    const saved = localStorage.getItem("kiln-model");
+    const saved = localStorage.getItem("lovable-diy-model");
     if (saved && MODELS.some((m) => m.ref === saved)) setModel(saved);
   }, []);
 
@@ -98,12 +98,12 @@ export function Workspace(props: WorkspaceProps) {
     },
   );
 
-  // Ask the preview to render itself to a JPEG (kiln/error-capture.ts) once HMR has applied the changes.
+  // Ask the preview to render itself to a JPEG (lovable-diy/error-capture.ts) once HMR has applied the changes.
   const captureThumbnail = (v: VersionEvent) => {
     setTimeout(() => {
       const frame = document.querySelector<HTMLIFrameElement>('iframe[title="App preview"]');
       frame?.contentWindow?.postMessage(
-        { source: "kiln-parent", kind: "capture", id: v.id },
+        { source: "lovable-diy-parent", kind: "capture", id: v.id },
         new URL(previewUrl).origin,
       );
     }, 2500);
@@ -140,7 +140,7 @@ export function Workspace(props: WorkspaceProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [stream.running, stop]);
 
-  // Errors and route changes posted by the preview (kiln/error-capture.ts). Batched to the API.
+  // Errors and route changes posted by the preview (lovable-diy/error-capture.ts). Batched to the API.
   const pending = useRef<unknown[]>([]);
   useEffect(() => {
     const origin = new URL(previewUrl).origin;
@@ -164,7 +164,7 @@ export function Workspace(props: WorkspaceProps) {
         id?: string;
         dataUrl?: string;
       };
-      if (d?.source !== "kiln-preview") return;
+      if (d?.source !== "lovable-diy-preview") return;
       if (d.kind === "route") setRoute(d.url ?? "/");
       else if (d.kind === "capture") {
         if (d.dataUrl && d.id)
@@ -215,7 +215,7 @@ export function Workspace(props: WorkspaceProps) {
             value={model}
             onChange={(e) => {
               setModel(e.target.value);
-              localStorage.setItem("kiln-model", e.target.value);
+              localStorage.setItem("lovable-diy-model", e.target.value);
             }}
             className="h-8 rounded-md border bg-background px-2 text-xs"
             aria-label="Model"

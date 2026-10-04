@@ -1,15 +1,15 @@
 import "server-only";
 import { EventEmitter } from "node:events";
-import { EVENTS_CHANNEL, getDb } from "@kiln/db";
+import { EVENTS_CHANNEL, getDb } from "@lovable-diy/db";
 
 /**
  * One LISTEN connection per web process, fanned out to every open SSE
  * stream through an in-memory emitter keyed by project id.
  */
-const g = globalThis as unknown as { __kilnBus?: Promise<EventEmitter> };
+const g = globalThis as unknown as { __lovableDiyBus?: Promise<EventEmitter> };
 
 export function eventBus(): Promise<EventEmitter> {
-  g.__kilnBus ??= (async () => {
+  g.__lovableDiyBus ??= (async () => {
     const bus = new EventEmitter();
     bus.setMaxListeners(0);
     await getDb().sql.listen(EVENTS_CHANNEL, (payload) => {
@@ -22,5 +22,5 @@ export function eventBus(): Promise<EventEmitter> {
     });
     return bus;
   })();
-  return g.__kilnBus;
+  return g.__lovableDiyBus;
 }

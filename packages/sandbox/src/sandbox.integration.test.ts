@@ -1,4 +1,4 @@
-import { createLogger } from "@kiln/shared";
+import { createLogger } from "@lovable-diy/shared";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { readBaseSnapshot } from "./base-snapshot";
 import { SandboxPathError } from "./errors";
@@ -14,7 +14,7 @@ describe("project sandbox boundary", () => {
     if (!base) throw new Error("run `pnpm sandbox:build-base` first");
     ps = await ProjectSandbox.createFromSnapshot({
       snapshotId: base.snapshotId,
-      name: `kiln-test-${Date.now().toString(36)}`,
+      name: `lovable-diy-test-${Date.now().toString(36)}`,
       log,
     });
   });

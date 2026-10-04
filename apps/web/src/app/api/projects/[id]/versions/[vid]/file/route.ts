@@ -1,4 +1,4 @@
-import { fileAt } from "@kiln/sandbox";
+import { fileAt } from "@lovable-diy/sandbox";
 import { NextResponse } from "next/server";
 import { HttpError, ownedProject, route } from "@/server/api";
 import { projectSandbox } from "@/server/sandbox";

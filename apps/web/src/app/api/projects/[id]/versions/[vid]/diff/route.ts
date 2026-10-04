@@ -1,4 +1,4 @@
-import { changedFilesBetween } from "@kiln/sandbox";
+import { changedFilesBetween } from "@lovable-diy/sandbox";
 import { NextResponse } from "next/server";
 import { ownedProject, route } from "@/server/api";
 import { projectSandbox } from "@/server/sandbox";

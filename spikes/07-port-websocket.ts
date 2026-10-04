@@ -26,7 +26,7 @@ srv.listen(8081);
 
 await s.run(async () => {
   const sb = s.track(
-    (await s.step("create", () => Sandbox.create({ name: uniq("kiln-spike07"), timeoutSecs: 300 })))!,
+    (await s.step("create", () => Sandbox.create({ name: uniq("lovable-diy-spike07"), timeoutSecs: 300 })))!,
   );
   await sb.writeFile("/home/tl-user/echo.js", enc.encode(echo));
   await sb.startProcess("node", { args: ["/home/tl-user/echo.js"], name: "echo" });

@@ -24,7 +24,7 @@ function waitFor(buf: () => string, needle: string, ms = 10_000) {
 
 await s.run(async () => {
   const sb = s.track(
-    (await s.step("create", () => Sandbox.create({ name: uniq("kiln-spike06"), timeoutSecs: 300 })))!,
+    (await s.step("create", () => Sandbox.create({ name: uniq("lovable-diy-spike06"), timeoutSecs: 300 })))!,
   );
 
   let out1 = "";
@@ -41,7 +41,7 @@ await s.run(async () => {
   s.note("session", { sessionId: pty.sessionId, tokenLength: pty.token.length });
 
   await s.step("type a command and see output", async () => {
-    await pty.sendInput("export KILN_VAR=kept; echo marker-$((20+22))\n");
+    await pty.sendInput("export LOVABLE_DIY_VAR=kept; echo marker-$((20+22))\n");
     await waitFor(() => out1, "marker-42");
   });
   await s.step("resize", () => pty.resize(120, 40));
@@ -57,7 +57,7 @@ await s.run(async () => {
   s.note("scrollbackReplayedOnReattach", out2.includes("marker-42"));
 
   await s.step("shell state survived detach", async () => {
-    await again.sendInput("echo var=$KILN_VAR\n");
+    await again.sendInput("echo var=$LOVABLE_DIY_VAR\n");
     await waitFor(() => out2, "var=kept");
   });
 

@@ -1,6 +1,6 @@
-import { KilnError, TimeoutError } from "@kiln/shared";
+import { LovableDiyError, TimeoutError } from "@lovable-diy/shared";
 
-export class SandboxError extends KilnError {}
+export class SandboxError extends LovableDiyError {}
 
 export class SandboxPathError extends SandboxError {
   constructor(path: string, reason: string) {
@@ -15,8 +15,8 @@ export class SandboxPathError extends SandboxError {
  * Map SDK/transport errors onto SandboxError so callers get a stable `code`
  * and a correct `retryable` flag (timeouts, 429 and 5xx are transient; 4xx are not).
  */
-export function toSandboxError(err: unknown, op: string, context: Record<string, unknown> = {}): KilnError {
-  if (err instanceof KilnError) return err;
+export function toSandboxError(err: unknown, op: string, context: Record<string, unknown> = {}): LovableDiyError {
+  if (err instanceof LovableDiyError) return err;
   const e = err as { name?: string; message?: string; statusCode?: number };
   const status = e.statusCode;
   const notFound = status === 404 || e.name === "SandboxNotFoundError";

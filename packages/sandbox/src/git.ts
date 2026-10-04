@@ -107,8 +107,8 @@ export async function pushToHostedGit(ps: ProjectSandbox, repo: string, dataDir:
   const existing = await repos.list();
   if (!existing.some((r) => r.name === repo)) await repos.create(repo, { defaultBranch: "main" });
 
-  await git(ps, "git bundle create -q /tmp/kiln.bundle main");
-  const bundle = await ps.sb.readFile("/tmp/kiln.bundle");
+  await git(ps, "git bundle create -q /tmp/lovable-diy.bundle main");
+  const bundle = await ps.sb.readFile("/tmp/lovable-diy.bundle");
 
   const mirror = join(dataDir, "git", `${repo}.git`);
   if (!existsSync(mirror)) {
@@ -194,5 +194,5 @@ git ls-files`,
     const r = await ps.exec("npm install --no-audit --no-fund --loglevel=error", { timeoutSecs: 240 });
     if (r.exitCode !== 0) throw new SandboxError("npm_failed", `npm install failed: ${r.stderr.slice(-500)}`);
   }
-  return { sha: sha!, files: files.filter((f) => f && !f.startsWith("kiln/")) };
+  return { sha: sha!, files: files.filter((f) => f && !f.startsWith("lovable-diy/")) };
 }

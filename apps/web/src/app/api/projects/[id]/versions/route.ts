@@ -1,5 +1,5 @@
-import { desc, eq, getDb, recordVersion, versions } from "@kiln/db";
-import { commitAll } from "@kiln/sandbox";
+import { desc, eq, getDb, recordVersion, versions } from "@lovable-diy/db";
+import { commitAll } from "@lovable-diy/sandbox";
 import { NextResponse } from "next/server";
 import { assertIdle, HttpError, ownedProject, route } from "@/server/api";
 import { projectSandbox } from "@/server/sandbox";

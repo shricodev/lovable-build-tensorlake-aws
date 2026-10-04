@@ -19,7 +19,7 @@ await s.run(async () => {
   const sb = s.track(
     (await s.step("create with allowInternetAccess=false + allowOut npm", () =>
       Sandbox.create({
-        name: uniq("kiln-spike08"),
+        name: uniq("lovable-diy-spike08"),
         timeoutSecs: 300,
         allowInternetAccess: false,
         allowOut: ["registry.npmjs.org"],

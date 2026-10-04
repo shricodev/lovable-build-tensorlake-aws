@@ -34,7 +34,7 @@ async function get(url: string, auth: boolean) {
 }
 
 await s.run(async () => {
-  const name = uniq("kiln-spike05");
+  const name = uniq("lovable-diy-spike05");
   const sb = s.track((await s.step("create named", () => Sandbox.create({ name, timeoutSecs: 600 })))!);
   await sb.writeFile("/home/tl-user/server.py", enc.encode(server));
   await s.step("start managed server with health check", () =>

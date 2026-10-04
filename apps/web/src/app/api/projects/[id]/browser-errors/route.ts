@@ -1,4 +1,4 @@
-import { browserErrors, desc, eq, getDb } from "@kiln/db";
+import { browserErrors, desc, eq, getDb } from "@lovable-diy/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { ownedProject, parseBody, route } from "@/server/api";
@@ -19,7 +19,7 @@ const Body = z.object({
     .max(20),
 });
 
-/** The workspace relays errors the preview posts to it (see kiln/error-capture.ts in the template). */
+/** The workspace relays errors the preview posts to it (see lovable-diy/error-capture.ts in the template). */
 export const POST = route<Ctx>(async (req, ctx, user) => {
   const p = await ownedProject(user.id, (await ctx.params).id);
   const { errors } = await parseBody(req, Body);

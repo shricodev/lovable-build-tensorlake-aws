@@ -8,10 +8,10 @@
  */
 import { readFileSync } from "node:fs";
 import { parseArgs } from "node:util";
-import { createProvider } from "@kiln/llm";
-import { ProjectSandbox } from "@kiln/sandbox";
-import { readBaseSnapshot } from "@kiln/sandbox/base";
-import { createLogger, llmEnv, loadEnv } from "@kiln/shared";
+import { createProvider } from "@lovable-diy/llm";
+import { ProjectSandbox } from "@lovable-diy/sandbox";
+import { readBaseSnapshot } from "@lovable-diy/sandbox/base";
+import { createLogger, llmEnv, loadEnv } from "@lovable-diy/shared";
 import { runAgentTurn } from "../agent/loop";
 import type { AgentEvent } from "../agent/events";
 
@@ -55,7 +55,7 @@ const at = () => `${c.dim}${((performance.now() - t0) / 1000).toFixed(1).padStar
 console.log(`${c.cyan}▶ ${llm.ref}${c.reset}  ${prompt}\n`);
 const sandbox = await ProjectSandbox.createFromSnapshot({
   snapshotId: base.snapshotId,
-  name: `kiln-cli-${Date.now().toString(36)}`,
+  name: `lovable-diy-cli-${Date.now().toString(36)}`,
   log,
 });
 console.log(`${at()} sandbox ${sandbox.id} ready`);

@@ -9,8 +9,13 @@ const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Kiln",
-  description: "Describe an app. Kiln builds it in a sandbox and shows it live.",
+  title: {
+    default: "Lovable DIY",
+    template: "%s · Lovable DIY",
+  },
+  description: "Build and edit small web apps from a live prompt-driven workspace.",
+  authors: [{ name: "Shrijal Acharya", url: "https://github.com/shricodev" }],
+  creator: "@shricodev",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Readable } from "node:stream";
-import { eq, getDb, publishedSites } from "@kiln/db";
-import { contentTypeFor, Storage } from "@kiln/storage";
-import type { Logger } from "@kiln/shared";
+import { eq, getDb, publishedSites } from "@lovable-diy/db";
+import { contentTypeFor, Storage } from "@lovable-diy/storage";
+import type { Logger } from "@lovable-diy/shared";
 import { notFoundPage } from "./pages";
 
 export const PUBLISHED_HOST_RE = /^([a-z0-9][a-z0-9-]{0,62})\.app\./i;

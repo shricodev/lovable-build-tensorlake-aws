@@ -1,4 +1,4 @@
-import type { ToolSpec } from "@kiln/llm";
+import type { ToolSpec } from "@lovable-diy/llm";
 import { z } from "zod";
 import { getBrowserErrors } from "./browser-errors";
 import { deleteFile } from "./delete-file";

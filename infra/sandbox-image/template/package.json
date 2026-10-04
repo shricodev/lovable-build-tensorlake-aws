@@ -1,5 +1,5 @@
 {
-  "name": "kiln-app",
+  "name": "lovable-diy-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
-    "check": "node kiln/check.mjs"
+    "check": "node lovable-diy/check.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

@@ -1,4 +1,4 @@
-import { retry, withTimeout, type Logger } from "@kiln/shared";
+import { retry, withTimeout, type Logger } from "@lovable-diy/shared";
 import { Sandbox, type Pty, type PtyConnectionOptions, type SandboxInfo } from "tensorlake";
 import {
   APP_DIR,
@@ -40,7 +40,7 @@ const enc = new TextEncoder();
 const dec = new TextDecoder();
 
 /**
- * One project's sandbox. This is the only type the rest of Kiln uses to talk
+ * One project's sandbox. This is the only type the rest of Lovable DIY uses to talk
  * to Tensorlake. Every call has a timeout; only idempotent reads are retried.
  */
 export class ProjectSandbox {

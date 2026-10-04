@@ -1,5 +1,5 @@
 {
-  "name": "@kiln/sandbox",
+  "name": "@lovable-diy/sandbox",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
     "bench": "tsx --env-file-if-exists=../../.env scripts/bench.ts"
   },
   "dependencies": {
-    "@kiln/shared": "workspace:*",
+    "@lovable-diy/shared": "workspace:*",
     "tensorlake": "0.5.135"
   }
 }

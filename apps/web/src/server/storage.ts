@@ -1,5 +1,5 @@
 import "server-only";
-import { Storage } from "@kiln/storage";
+import { Storage } from "@lovable-diy/storage";
 
-const g = globalThis as unknown as { __kilnStorage?: Storage };
-export const storage = () => (g.__kilnStorage ??= new Storage());
+const g = globalThis as unknown as { __lovableDiyStorage?: Storage };
+export const storage = () => (g.__lovableDiyStorage ??= new Storage());

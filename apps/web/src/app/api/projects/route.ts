@@ -1,4 +1,4 @@
-import { getDb, projectQuotaExceeded, projects } from "@kiln/db";
+import { getDb, projectQuotaExceeded, projects } from "@lovable-diy/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { HttpError, parseBody, route } from "@/server/api";

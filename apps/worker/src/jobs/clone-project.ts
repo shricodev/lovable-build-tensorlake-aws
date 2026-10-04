@@ -1,6 +1,6 @@
-import { appendEvent, eq, messages, projects, recordVersion, type CloneProjectJob, type Db } from "@kiln/db";
-import { bundleFromHostedGit, loadBundle } from "@kiln/sandbox";
-import type { Logger } from "@kiln/shared";
+import { appendEvent, eq, messages, projects, recordVersion, type CloneProjectJob, type Db } from "@lovable-diy/db";
+import { bundleFromHostedGit, loadBundle } from "@lovable-diy/sandbox";
+import type { Logger } from "@lovable-diy/shared";
 import { ensureMainSandbox } from "../sandboxes";
 import { DATA_DIR, syncHostedGit } from "../versions";
 

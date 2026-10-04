@@ -1,5 +1,5 @@
-import { and, eq, getDb, messages, projects, runEvents, runQuotaExceeded, runs, users } from "@kiln/db";
-import { createLogger } from "@kiln/shared";
+import { and, eq, getDb, messages, projects, runEvents, runQuotaExceeded, runs, users } from "@lovable-diy/db";
+import { createLogger } from "@lovable-diy/shared";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { handleAgentTurn } from "./agent-turn";
 

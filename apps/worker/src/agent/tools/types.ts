@@ -1,5 +1,5 @@
-import type { Logger } from "@kiln/shared";
-import type { ProjectSandbox } from "@kiln/sandbox";
+import type { Logger } from "@lovable-diy/shared";
+import type { ProjectSandbox } from "@lovable-diy/sandbox";
 import type { z } from "zod";
 
 export interface BrowserError {

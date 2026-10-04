@@ -1,5 +1,5 @@
 {
-  "name": "kiln",
+  "name": "lovable-diy",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.34.2",
@@ -17,14 +17,14 @@
     "infra:down": "docker compose -f infra/docker-compose.yml down",
     "s3:setup": "tsx --env-file-if-exists=.env infra/s3/setup-bucket.ts",
     "spike": "tsx --env-file-if-exists=.env",
-    "sandbox:build-base": "pnpm --filter @kiln/sandbox build-base",
-    "sandbox:bench": "pnpm --filter @kiln/sandbox bench",
-    "agent:run": "pnpm --filter @kiln/worker agent:run",
-    "dev": "turbo run dev --filter=@kiln/web --filter=@kiln/worker --filter=@kiln/gateway",
-    "db:migrate": "pnpm --filter @kiln/db db:migrate",
-    "db:generate": "pnpm --filter @kiln/db db:generate",
+    "sandbox:build-base": "pnpm --filter @lovable-diy/sandbox build-base",
+    "sandbox:bench": "pnpm --filter @lovable-diy/sandbox bench",
+    "agent:run": "pnpm --filter @lovable-diy/worker agent:run",
+    "dev": "turbo run dev --filter=@lovable-diy/web --filter=@lovable-diy/worker --filter=@lovable-diy/gateway",
+    "db:migrate": "pnpm --filter @lovable-diy/db db:migrate",
+    "db:generate": "pnpm --filter @lovable-diy/db db:generate",
     "test:integration": "vitest run --config vitest.integration.config.ts",
-    "eval": "pnpm --filter @kiln/worker eval"
+    "eval": "pnpm --filter @lovable-diy/worker eval"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -37,8 +37,8 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1",
     "vitest": "^5.0.2",
-    "@kiln/storage": "workspace:*",
-    "@kiln/shared": "workspace:*"
+    "@lovable-diy/storage": "workspace:*",
+    "@lovable-diy/shared": "workspace:*"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

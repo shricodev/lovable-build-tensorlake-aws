@@ -11,10 +11,10 @@ export function createDb(url = process.env.DATABASE_URL) {
   return { db: drizzle(sql, { schema }), sql };
 }
 
-const g = globalThis as unknown as { __kilnDb?: ReturnType<typeof createDb> };
+const g = globalThis as unknown as { __lovableDiyDb?: ReturnType<typeof createDb> };
 
 /** Lazy singleton that survives Next.js dev hot reloads. */
 export function getDb() {
-  g.__kilnDb ??= createDb();
-  return g.__kilnDb;
+  g.__lovableDiyDb ??= createDb();
+  return g.__lovableDiyDb;
 }

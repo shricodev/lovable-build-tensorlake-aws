@@ -10,7 +10,7 @@ const s = spike("04-copy");
 
 await s.run(async () => {
   const src = s.track(
-    (await s.step("create source", () => Sandbox.create({ name: uniq("kiln-spike04"), timeoutSecs: 300 })))!,
+    (await s.step("create source", () => Sandbox.create({ name: uniq("lovable-diy-spike04"), timeoutSecs: 300 })))!,
   );
   await src.writeFile("/home/tl-user/marker.txt", enc.encode("from-source"));
 

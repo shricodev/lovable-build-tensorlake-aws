@@ -5,7 +5,7 @@ dist/
 .env
 .env.*
 !.env.example
-.kiln/
+.lovable-diy/
 *.log
 coverage/
 spikes/out/

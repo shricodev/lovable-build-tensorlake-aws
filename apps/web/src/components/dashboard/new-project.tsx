@@ -39,7 +39,7 @@ export function NewProject() {
   return (
     <section className="mx-auto max-w-2xl space-y-4 text-center">
       <h1 className="text-3xl font-semibold tracking-tight">What do you want to build?</h1>
-      <p className="text-muted-foreground">Describe an app. Kiln writes it in a sandbox and shows it live.</p>
+      <p className="text-muted-foreground">Describe an app and follow the build in a live preview.</p>
       <div className="relative rounded-xl border bg-card text-left shadow-xs focus-within:ring-2 focus-within:ring-ring/40">
         <Textarea
           value={prompt}

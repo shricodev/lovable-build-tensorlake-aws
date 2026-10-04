@@ -17,12 +17,12 @@ const repos = new RepositoryClient();
 const APP = "/home/tl-user/app";
 
 await s.run(async () => {
-  const repo = uniq("kiln-spike12");
+  const repo = uniq("lovable-diy-spike12");
   await s.step("create repo", () => repos.create(repo, { defaultBranch: "main" }));
   s.onCleanup(() => repos.delete(repo));
   const url = await repos.url(repo);
 
-  const mirror = mkdtempSync(join(tmpdir(), "kiln-mirror-"));
+  const mirror = mkdtempSync(join(tmpdir(), "lovable-diy-mirror-"));
   s.onCleanup(async () => rmSync(mirror, { recursive: true, force: true }));
   const localGit = (args: string[], token?: string) =>
     execFileSync(
@@ -39,12 +39,12 @@ await s.run(async () => {
   localGit(["init", "-q", "--bare"]);
 
   const sb = s.track(
-    (await s.step("create sandbox", () => Sandbox.create({ name: uniq("kiln-spike12"), timeoutSecs: 300 })))!,
+    (await s.step("create sandbox", () => Sandbox.create({ name: uniq("lovable-diy-spike12"), timeoutSecs: 300 })))!,
   );
   const sh = (cmd: string) => sb.run("bash", { args: ["-lc", `cd ${APP} && ${cmd}`], timeout: 60 });
   await sb.run("mkdir", { args: ["-p", APP] });
   await sh(
-    "git init -q -b main && git config user.email kiln@local && git config user.name Kiln && echo v1 > a.txt && git add -A && git commit -qm 'Version 1'",
+    "git init -q -b main && git config user.email lovable-diy@local && git config user.name Lovable DIY && echo v1 > a.txt && git add -A && git commit -qm 'Version 1'",
   );
 
   async function exportAndPush(label: string, since?: string) {

@@ -1,6 +1,6 @@
-import type { ChatRequest, ChatResult, LlmProvider } from "@kiln/llm";
-import type { ProjectSandbox } from "@kiln/sandbox";
-import { createLogger } from "@kiln/shared";
+import type { ChatRequest, ChatResult, LlmProvider } from "@lovable-diy/llm";
+import type { ProjectSandbox } from "@lovable-diy/sandbox";
+import { createLogger } from "@lovable-diy/shared";
 import { describe, expect, it } from "vitest";
 import type { AgentEvent } from "./events";
 import { runAgentTurn } from "./loop";
@@ -32,7 +32,7 @@ function fakeSandbox(tscFailures: number) {
           ? { ...ok("src/App.tsx(1,1): error TS2304: Cannot find name 'x'."), exitCode: 2 }
           : ok();
       }
-      if (cmd.startsWith("node kiln/check.mjs")) return ok('{"ok":true,"rendered":true,"errors":[]}');
+      if (cmd.startsWith("node lovable-diy/check.mjs")) return ok('{"ok":true,"rendered":true,"errors":[]}');
       return ok();
     },
   };

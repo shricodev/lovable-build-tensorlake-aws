@@ -29,7 +29,7 @@ async function peakMem(sb: Sandbox) {
 await s.run(async () => {
   const big = await s.step(
     "probe: create 2 vCPU / 4 GB",
-    () => Sandbox.create({ name: uniq("kiln-spike11-big"), cpus: 2, memoryMb: 4096, timeoutSecs: 120 }),
+    () => Sandbox.create({ name: uniq("lovable-diy-spike11-big"), cpus: 2, memoryMb: 4096, timeoutSecs: 120 }),
     { allowFail: true },
   );
   s.note("biggerSizesAllowed", big !== undefined);
@@ -37,7 +37,7 @@ await s.run(async () => {
 
   const sb = s.track(
     (await s.step("create 1 vCPU / 1 GB", () =>
-      Sandbox.create({ name: uniq("kiln-spike11"), timeoutSecs: 900 }),
+      Sandbox.create({ name: uniq("lovable-diy-spike11"), timeoutSecs: 900 }),
     ))!,
   );
   await sb.writeFile("/home/tl-user/sampler.sh", enc.encode(sampler));

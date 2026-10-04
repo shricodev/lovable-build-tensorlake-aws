@@ -6,9 +6,9 @@
  * read the main app's cookies.
  */
 import http from "node:http";
-import { and, eq, getDb, projects, sandboxes, isNull } from "@kiln/db";
-import { previewUrlFor } from "@kiln/sandbox";
-import { createLogger } from "@kiln/shared";
+import { and, eq, getDb, projects, sandboxes, isNull } from "@lovable-diy/db";
+import { previewUrlFor } from "@lovable-diy/sandbox";
+import { createLogger } from "@lovable-diy/shared";
 import { createProxyServer } from "http-proxy-3";
 import { busyPage, noPreviewPage, notFoundPage, wakingPage } from "./pages";
 import { PUBLISHED_HOST_RE, servePublished } from "./published";
@@ -126,7 +126,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.on("upgrade", async (req, socket, head) => {
-  if ((req.url ?? "").startsWith("/__kiln/terminal")) return handleTerminalUpgrade(req, socket, head, log);
+  if ((req.url ?? "").startsWith("/__lovableDiy/terminal")) return handleTerminalUpgrade(req, socket, head, log);
   const m = HOST_RE.exec(req.headers.host ?? "");
   const t = m ? await resolve(m[1]!.toLowerCase()).catch(() => null) : null;
   if (!t?.tensorlakeId) return socket.destroy();

@@ -11,10 +11,10 @@ importers:
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.11.0(jiti@2.7.0))
-      '@kiln/shared':
+      '@lovable-diy/shared':
         specifier: workspace:*
         version: link:packages/shared
-      '@kiln/storage':
+      '@lovable-diy/storage':
         specifier: workspace:*
         version: link:packages/storage
       '@types/node':
@@ -47,16 +47,16 @@ importers:
 
   apps/gateway:
     dependencies:
-      '@kiln/db':
+      '@lovable-diy/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@kiln/sandbox':
+      '@lovable-diy/sandbox':
         specifier: workspace:*
         version: link:../../packages/sandbox
-      '@kiln/shared':
+      '@lovable-diy/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@kiln/storage':
+      '@lovable-diy/storage':
         specifier: workspace:*
         version: link:../../packages/storage
       http-proxy-3:
@@ -78,16 +78,16 @@ importers:
 
   apps/web:
     dependencies:
-      '@kiln/db':
+      '@lovable-diy/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@kiln/sandbox':
+      '@lovable-diy/sandbox':
         specifier: workspace:*
         version: link:../../packages/sandbox
-      '@kiln/shared':
+      '@lovable-diy/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@kiln/storage':
+      '@lovable-diy/storage':
         specifier: workspace:*
         version: link:../../packages/storage
       '@monaco-editor/react':
@@ -181,19 +181,19 @@ importers:
 
   apps/worker:
     dependencies:
-      '@kiln/db':
+      '@lovable-diy/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@kiln/llm':
+      '@lovable-diy/llm':
         specifier: workspace:*
         version: link:../../packages/llm
-      '@kiln/sandbox':
+      '@lovable-diy/sandbox':
         specifier: workspace:*
         version: link:../../packages/sandbox
-      '@kiln/shared':
+      '@lovable-diy/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@kiln/storage':
+      '@lovable-diy/storage':
         specifier: workspace:*
         version: link:../../packages/storage
       pg-boss:
@@ -214,7 +214,7 @@ importers:
 
   packages/db:
     dependencies:
-      '@kiln/shared':
+      '@lovable-diy/shared':
         specifier: workspace:*
         version: link:../shared
       drizzle-orm:
@@ -239,7 +239,7 @@ importers:
       '@anthropic-ai/sdk':
         specifier: ^0.128.0
         version: 0.128.0(zod@4.6.5)
-      '@kiln/shared':
+      '@lovable-diy/shared':
         specifier: workspace:*
         version: link:../shared
       openai:
@@ -251,7 +251,7 @@ importers:
 
   packages/sandbox:
     dependencies:
-      '@kiln/shared':
+      '@lovable-diy/shared':
         specifier: workspace:*
         version: link:../shared
       tensorlake:
@@ -282,7 +282,7 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.1141.0
         version: 3.1141.0
-      '@kiln/shared':
+      '@lovable-diy/shared':
         specifier: workspace:*
         version: link:../shared
 

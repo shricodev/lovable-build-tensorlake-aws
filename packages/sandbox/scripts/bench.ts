@@ -7,7 +7,7 @@
  * With --keep, the snapshot sandbox is left running and its preview URL printed.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
-import { createLogger } from "@kiln/shared";
+import { createLogger } from "@lovable-diy/shared";
 import { coldCreateFromTemplate, readBaseSnapshot } from "../src/base-snapshot";
 import { ProjectSandbox, type PreviewEndpoint } from "../src/index";
 
@@ -45,7 +45,7 @@ const created = new Set<string>(); // every sandbox we made, for snapshot cleanu
 try {
   // 1. Cold
   const [cold, coldMs] = await timed(async () => {
-    const c = await coldCreateFromTemplate({ name: `kiln-bench-cold-${stamp}`, log });
+    const c = await coldCreateFromTemplate({ name: `lovable-diy-bench-cold-${stamp}`, log });
     await c.ps.configure();
     await reachable(await c.ps.previewEndpoint());
     return c;
@@ -58,7 +58,7 @@ try {
   const [warm, warmMs] = await timed(async () => {
     const ps = await ProjectSandbox.createFromSnapshot({
       snapshotId: base.snapshotId,
-      name: `kiln-bench-warm-${stamp}`,
+      name: `lovable-diy-bench-warm-${stamp}`,
       log,
     });
     await reachable(await ps.previewEndpoint());
@@ -93,9 +93,9 @@ try {
   console.log(`| Wake suspended sandbox via proxy | ${(wakeMs / 1000).toFixed(1)} s |`);
   console.log("\ncold breakdown (ms):", JSON.stringify(cold.timings));
 
-  mkdirSync(new URL("../../../.kiln/", import.meta.url), { recursive: true });
+  mkdirSync(new URL("../../../.lovable-diy/", import.meta.url), { recursive: true });
   writeFileSync(
-    new URL("../../../.kiln/bench.json", import.meta.url),
+    new URL("../../../.lovable-diy/bench.json", import.meta.url),
     JSON.stringify({ at: new Date().toISOString(), ...results }, null, 2),
   );
 

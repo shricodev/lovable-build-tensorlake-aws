@@ -1,4 +1,4 @@
-import { eq, getDb, publishedSites, versions } from "@kiln/db";
+import { eq, getDb, publishedSites, versions } from "@lovable-diy/db";
 import { NextResponse } from "next/server";
 import { assertIdle, ownedProject, route } from "@/server/api";
 import { publish, publishedUrl, unpublish } from "@/server/publish";

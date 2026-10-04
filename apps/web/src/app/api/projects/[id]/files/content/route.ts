@@ -1,4 +1,4 @@
-import { and, eq, getDb, inArray, runs } from "@kiln/db";
+import { and, eq, getDb, inArray, runs } from "@lovable-diy/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { HttpError, ownedProject, parseBody, route } from "@/server/api";

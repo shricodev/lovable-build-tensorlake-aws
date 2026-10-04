@@ -111,7 +111,7 @@ export function ChatPanel(props: {
                 void send();
               }
             }}
-            placeholder={busy ? "Kiln is working…" : "Ask for a change…  (⌘/Ctrl + Enter)"}
+            placeholder={busy ? "Lovable DIY is working…" : "Ask for a change…  (⌘/Ctrl + Enter)"}
             className="max-h-48 min-h-20 resize-none border-0 bg-transparent pr-12 shadow-none focus-visible:ring-0"
             aria-label="Message"
           />

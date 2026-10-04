@@ -2,7 +2,7 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import type { Logger } from "@kiln/shared";
+import type { Logger } from "@lovable-diy/shared";
 import { Sandbox } from "tensorlake";
 import { APP_DIR } from "./config";
 import { SandboxError } from "./errors";
@@ -10,7 +10,7 @@ import { ProjectSandbox } from "./project-sandbox";
 
 const REPO_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
 export const TEMPLATE_DIR = `${REPO_ROOT}infra/sandbox-image/template`;
-const BASE_FILE = `${REPO_ROOT}.kiln/base-snapshot.json`;
+const BASE_FILE = `${REPO_ROOT}.lovable-diy/base-snapshot.json`;
 
 export interface BaseSnapshotRecord {
   snapshotId: string;
@@ -42,9 +42,9 @@ export function templateTarball(): { bytes: Uint8Array; hash: string } {
 }
 
 export function readBaseSnapshot(): BaseSnapshotRecord | null {
-  if (process.env.KILN_BASE_SNAPSHOT_ID) {
+  if (process.env.LOVABLE_DIY_BASE_SNAPSHOT_ID) {
     return {
-      snapshotId: process.env.KILN_BASE_SNAPSHOT_ID,
+      snapshotId: process.env.LOVABLE_DIY_BASE_SNAPSHOT_ID,
       templateHash: "env",
       createdAt: "",
       timingsMs: {},
@@ -54,7 +54,7 @@ export function readBaseSnapshot(): BaseSnapshotRecord | null {
 }
 
 function writeBaseSnapshot(rec: BaseSnapshotRecord) {
-  mkdirSync(`${REPO_ROOT}.kiln`, { recursive: true });
+  mkdirSync(`${REPO_ROOT}.lovable-diy`, { recursive: true });
   writeFileSync(BASE_FILE, JSON.stringify(rec, null, 2) + "\n");
 }
 
@@ -103,7 +103,7 @@ export async function coldCreateFromTemplate(opts: { name: string; log: Logger; 
   await lap("git", () =>
     must(
       "git init",
-      `cd ${APP_DIR} && git init -q -b main && git config user.name Kiln && git config user.email kiln@local && git add -A && git commit -qm "Start from Kiln template"`,
+      `cd ${APP_DIR} && git init -q -b main && git config user.name Lovable DIY && git config user.email lovable-diy@local && git add -A && git commit -qm "Start from Lovable DIY template"`,
       30,
     ),
   );
@@ -112,7 +112,7 @@ export async function coldCreateFromTemplate(opts: { name: string; log: Logger; 
     await lap("verify", async () => {
       await must("typecheck", `cd ${APP_DIR} && npx tsc --noEmit`, 120);
       await must("build", `cd ${APP_DIR} && npx vite build && rm -rf dist`, 120);
-      const check = await must("dom check", `cd ${APP_DIR} && node kiln/check.mjs`, 60);
+      const check = await must("dom check", `cd ${APP_DIR} && node lovable-diy/check.mjs`, 60);
       const res = JSON.parse(check.stdout.trim().split("\n").pop() ?? "{}") as {
         ok?: boolean;
         errors?: string[];
@@ -139,7 +139,7 @@ export async function coldCreateFromTemplate(opts: { name: string; log: Logger; 
 /** Build the warm base snapshot every new project starts from. */
 export async function buildBaseSnapshot(log: Logger): Promise<BaseSnapshotRecord> {
   const { ps, timings, templateHash } = await coldCreateFromTemplate({
-    name: `kiln-base-${Date.now().toString(36)}`,
+    name: `lovable-diy-base-${Date.now().toString(36)}`,
     log,
     verify: true,
   });

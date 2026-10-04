@@ -2,16 +2,16 @@
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "KilnObjects",
+      "Sid": "LovableDiyObjects",
       "Effect": "Allow",
       "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject", "s3:AbortMultipartUpload"],
-      "Resource": "arn:aws:s3:::KILN_BUCKET_NAME/*"
+      "Resource": "arn:aws:s3:::LOVABLE_DIY_BUCKET_NAME/*"
     },
     {
-      "Sid": "KilnBucket",
+      "Sid": "LovableDiyBucket",
       "Effect": "Allow",
       "Action": ["s3:ListBucket"],
-      "Resource": "arn:aws:s3:::KILN_BUCKET_NAME"
+      "Resource": "arn:aws:s3:::LOVABLE_DIY_BUCKET_NAME"
     }
   ]
 }

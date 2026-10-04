@@ -1,7 +1,7 @@
-import type { AgentTurnJob, Db } from "@kiln/db";
-import { and, appendEvent, asc, browserErrors, desc, eq, gt, messages, projects, runs } from "@kiln/db";
-import { createProvider } from "@kiln/llm";
-import type { Logger } from "@kiln/shared";
+import type { AgentTurnJob, Db } from "@lovable-diy/db";
+import { and, appendEvent, asc, browserErrors, desc, eq, gt, messages, projects, runs } from "@lovable-diy/db";
+import { createProvider } from "@lovable-diy/llm";
+import type { Logger } from "@lovable-diy/shared";
 import type { AgentEvent } from "../agent/events";
 import { runAgentTurn } from "../agent/loop";
 import type { PriorTurn } from "../agent/context";

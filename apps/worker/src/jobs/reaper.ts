@@ -1,10 +1,10 @@
-import { and, appendEvent, eq, getDb, inArray, isNotNull, lt, ne, projects, runs, sandboxes } from "@kiln/db";
-import { deleteHostedRepo, ProjectSandbox } from "@kiln/sandbox";
-import { readBaseSnapshot } from "@kiln/sandbox/base";
-import type { Logger } from "@kiln/shared";
+import { and, appendEvent, eq, getDb, inArray, isNotNull, lt, ne, projects, runs, sandboxes } from "@lovable-diy/db";
+import { deleteHostedRepo, ProjectSandbox } from "@lovable-diy/sandbox";
+import { readBaseSnapshot } from "@lovable-diy/sandbox/base";
+import type { Logger } from "@lovable-diy/shared";
 
 const IDLE_MINUTES = Number(process.env.SANDBOX_IDLE_SUSPEND_MINUTES ?? 10);
-const PROJECT_SANDBOX_NAME = /^kiln-[0-9a-f]{8}-/;
+const PROJECT_SANDBOX_NAME = /^lovable-diy-[0-9a-f]{8}-/;
 
 /**
  * Runs every minute:

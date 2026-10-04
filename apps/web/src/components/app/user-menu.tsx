@@ -1,5 +1,5 @@
 import { LogOut } from "lucide-react";
-import type { User } from "@kiln/db";
+import type { User } from "@lovable-diy/db";
 import { signOut } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {

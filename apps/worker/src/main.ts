@@ -1,6 +1,6 @@
 /** Worker process: consumes pg-boss jobs and runs agent turns. */
-import { CANCEL_CHANNEL, getBoss, getDb, QUEUES, type AgentTurnJob, type CloneProjectJob } from "@kiln/db";
-import { createLogger } from "@kiln/shared";
+import { CANCEL_CHANNEL, getBoss, getDb, QUEUES, type AgentTurnJob, type CloneProjectJob } from "@lovable-diy/db";
+import { createLogger } from "@lovable-diy/shared";
 import { handleAgentTurn } from "./jobs/agent-turn";
 import { handleCloneProject } from "./jobs/clone-project";
 import { reap } from "./jobs/reaper";

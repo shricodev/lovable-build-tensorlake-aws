@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, getDb, gt, inArray, runEvents, runs } from "@kiln/db";
+import { and, asc, desc, eq, getDb, gt, inArray, runEvents, runs } from "@lovable-diy/db";
 import { ownedProject, route } from "@/server/api";
 import { eventBus } from "@/server/event-bus";
 

@@ -1,4 +1,4 @@
-import { CANCEL_CHANNEL, and, eq, getDb, inArray, runs } from "@kiln/db";
+import { CANCEL_CHANNEL, and, eq, getDb, inArray, runs } from "@lovable-diy/db";
 import { NextResponse } from "next/server";
 import { HttpError, ownedProject, route } from "@/server/api";
 

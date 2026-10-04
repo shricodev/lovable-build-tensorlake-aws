@@ -1,4 +1,5 @@
-import { and, desc, eq, getDb, inArray, isNull, projects, runs, sandboxes } from "@kiln/db";
+import { and, desc, eq, getDb, inArray, isNull, projects, runs, sandboxes } from "@lovable-diy/db";
+import { CreatorCredit } from "@/components/app/creator-credit";
 import { Logo } from "@/components/app/logo";
 import { ThemeToggle } from "@/components/app/theme-toggle";
 import { UserMenu } from "@/components/app/user-menu";
@@ -40,7 +41,7 @@ export default async function ProjectsPage() {
   const busy = new Set(active.map((a) => a.projectId));
 
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
           <Logo />
@@ -50,7 +51,7 @@ export default async function ProjectsPage() {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl space-y-10 px-6 py-10">
+      <main className="mx-auto w-full max-w-6xl flex-1 space-y-10 px-6 py-10">
         <NewProject />
         <ProjectGrid
           projects={rows.map((r) => ({
@@ -63,6 +64,9 @@ export default async function ProjectsPage() {
           }))}
         />
       </main>
+      <footer className="border-t px-6 py-5 text-center">
+        <CreatorCredit />
+      </footer>
     </div>
   );
 }

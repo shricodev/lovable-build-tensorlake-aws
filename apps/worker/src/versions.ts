@@ -1,10 +1,10 @@
-import { eq, projects, recordVersion, versionTitle, type Db } from "@kiln/db";
-import { commitAll, pushToHostedGit, type ProjectSandbox } from "@kiln/sandbox";
-import type { Logger } from "@kiln/shared";
+import { eq, projects, recordVersion, versionTitle, type Db } from "@lovable-diy/db";
+import { commitAll, pushToHostedGit, type ProjectSandbox } from "@lovable-diy/sandbox";
+import type { Logger } from "@lovable-diy/shared";
 import { fileURLToPath } from "node:url";
 
 export const DATA_DIR =
-  process.env.KILN_DATA_DIR ?? fileURLToPath(new URL("../../../.kiln", import.meta.url));
+  process.env.LOVABLE_DIY_DATA_DIR ?? fileURLToPath(new URL("../../../.lovable-diy", import.meta.url));
 
 /** Commit the turn's changes as a new version, then push history to hosted Git in the background. */
 export async function saveVersion(opts: {
@@ -35,7 +35,7 @@ export async function saveVersion(opts: {
 }
 
 export async function syncHostedGit(db: Db, log: Logger, sandbox: ProjectSandbox, projectId: string) {
-  const repo = `kiln-${projectId}`;
+  const repo = `lovable-diy-${projectId}`;
   try {
     const t0 = performance.now();
     await pushToHostedGit(sandbox, repo, DATA_DIR);

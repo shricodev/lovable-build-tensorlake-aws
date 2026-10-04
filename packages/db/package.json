@@ -1,5 +1,5 @@
 {
-  "name": "@kiln/db",
+  "name": "@lovable-diy/db",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -12,7 +12,7 @@
     "db:migrate": "tsx --env-file-if-exists=../../.env src/migrate.ts"
   },
   "dependencies": {
-    "@kiln/shared": "workspace:*",
+    "@lovable-diy/shared": "workspace:*",
     "drizzle-orm": "^0.45.3",
     "pg-boss": "^12.35.0",
     "postgres": "^3.4.9"

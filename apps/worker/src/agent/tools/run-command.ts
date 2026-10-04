@@ -10,7 +10,7 @@ const BLOCKED: Array<[RegExp, string]> = [
   [
     // any `vite` invocation except `vite build`
     /\b(npm|pnpm|yarn)\s+(run\s+)?(dev|start|preview)\b|(^|[\s;&|(])(npx\s+)?vite(?!\s+build\b)(\s|$)/,
-    "The dev server is already running and managed by Kiln; don't start another one.",
+    "The dev server is already running and managed by Lovable DIY; don't start another one.",
   ],
 ];
 

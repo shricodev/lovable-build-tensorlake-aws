@@ -1,6 +1,6 @@
-import { appendEvent, eq, getDb, sandboxes, tryAcquireSlot } from "@kiln/db";
-import { ProjectSandbox } from "@kiln/sandbox";
-import type { Logger } from "@kiln/shared";
+import { appendEvent, eq, getDb, sandboxes, tryAcquireSlot } from "@lovable-diy/db";
+import { ProjectSandbox } from "@lovable-diy/sandbox";
+import type { Logger } from "@lovable-diy/shared";
 
 const inflight = new Map<string, Promise<"running" | "busy" | "failed">>();
 

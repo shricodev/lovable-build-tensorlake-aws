@@ -11,7 +11,7 @@ const root = "/home/tl-user/app";
 
 await s.run(async () => {
   const sb = s.track(
-    (await s.step("create", () => Sandbox.create({ name: uniq("kiln-spike02"), timeoutSecs: 300 })))!,
+    (await s.step("create", () => Sandbox.create({ name: uniq("lovable-diy-spike02"), timeoutSecs: 300 })))!,
   );
 
   const nested = await s.step(
@@ -72,7 +72,7 @@ await s.run(async () => {
 
   const outside = await s.step(
     "writeFile to /etc (as tl-user)",
-    () => sb.writeFile("/etc/kiln-test", enc.encode("x")),
+    () => sb.writeFile("/etc/lovable-diy-test", enc.encode("x")),
     {
       allowFail: true,
     },

@@ -7,9 +7,9 @@ import {
   type LlmProvider,
   type UserPart,
   type Usage,
-} from "@kiln/llm";
-import type { ProjectSandbox } from "@kiln/sandbox";
-import { KilnError, type Logger } from "@kiln/shared";
+} from "@lovable-diy/llm";
+import type { ProjectSandbox } from "@lovable-diy/sandbox";
+import { LovableDiyError, type Logger } from "@lovable-diy/shared";
 import { describeFailures, renderCheck, runChecks, type CheckResult } from "./checks";
 import { buildTurnMessage, elideOldToolResults, type PriorTurn } from "./context";
 import type { AgentEvent } from "./events";
@@ -47,7 +47,7 @@ export interface AgentTurnResult {
 
 /**
  * One agent turn: the LLM plans and edits via tools until it calls `finish`,
- * then Kiln verifies (tsc, build, render). Failures go back to the model for
+ * then Lovable DIY verifies (tsc, build, render). Failures go back to the model for
  * up to `maxHealRounds` more rounds; after that we report honestly.
  */
 export async function runAgentTurn(input: AgentTurnInput): Promise<AgentTurnResult> {
@@ -209,13 +209,13 @@ export async function runAgentTurn(input: AgentTurnInput): Promise<AgentTurnResu
       emit({ type: "status", status: "healing", round: healRounds });
       results.push({
         type: "text",
-        text: `Kiln verification failed (fix round ${healRounds} of ${maxHeal}). Fix these problems, re-check with \`npx tsc --noEmit\`, then call finish again.\n\n${describeFailures(lastCheck)}`,
+        text: `Lovable DIY verification failed (fix round ${healRounds} of ${maxHeal}). Fix these problems, re-check with \`npx tsc --noEmit\`, then call finish again.\n\n${describeFailures(lastCheck)}`,
       });
       messages.push({ role: "user", content: results });
     }
   } catch (err) {
     if (signal.aborted) return result("cancelled");
-    const message = err instanceof KilnError ? err.userMessage : "The agent hit an unexpected error.";
+    const message = err instanceof LovableDiyError ? err.userMessage : "The agent hit an unexpected error.";
     log.error({ err }, "agent turn failed");
     emit({ type: "error", message });
     return result("failed", { error: err instanceof Error ? err.message : String(err) });
@@ -237,7 +237,7 @@ async function executeTool(name: string, rawInput: unknown, ctx: ToolContext): P
     return await tool.run(parsed.data, ctx);
   } catch (err) {
     const msg =
-      err instanceof KilnError ? `${err.message}` : err instanceof Error ? err.message : String(err);
+      err instanceof LovableDiyError ? `${err.message}` : err instanceof Error ? err.message : String(err);
     ctx.log.warn({ tool: name, err: msg }, "tool failed");
     return { isError: true, content: `${name} failed: ${msg}` };
   }

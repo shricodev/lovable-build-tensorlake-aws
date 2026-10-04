@@ -7,7 +7,7 @@ import {
   type GetObjectCommandOutput,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { loadEnv, storageEnv, type Env } from "@kiln/shared/env";
+import { loadEnv, storageEnv, type Env } from "@lovable-diy/shared/env";
 
 export type StorageConfig = Env<typeof storageEnv>;
 

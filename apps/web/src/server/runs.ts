@@ -9,8 +9,8 @@ import {
   projects,
   runQuotaExceeded,
   runs,
-} from "@kiln/db";
-import { llmEnv, loadEnv } from "@kiln/shared";
+} from "@lovable-diy/db";
+import { llmEnv, loadEnv } from "@lovable-diy/shared";
 import { HttpError } from "./api";
 
 /** Record the prompt, create a queued run and hand it to the worker. */

@@ -1,8 +1,8 @@
 /**
- * Base error for everything Kiln throws on purpose. `userMessage` is safe to
+ * Base error for everything Lovable DIY throws on purpose. `userMessage` is safe to
  * show in the UI; `message` and `context` are for logs only.
  */
-export class KilnError extends Error {
+export class LovableDiyError extends Error {
   readonly code: string;
   readonly userMessage: string;
   readonly context: Record<string, unknown>;
@@ -28,7 +28,7 @@ export class KilnError extends Error {
   }
 }
 
-export class TimeoutError extends KilnError {
+export class TimeoutError extends LovableDiyError {
   constructor(what: string, ms: number) {
     super("timeout", `${what} timed out after ${ms}ms`, {
       userMessage: "The operation took too long and was stopped.",
@@ -39,5 +39,5 @@ export class TimeoutError extends KilnError {
 }
 
 export function isRetryable(err: unknown): boolean {
-  return err instanceof KilnError && err.retryable;
+  return err instanceof LovableDiyError && err.retryable;
 }

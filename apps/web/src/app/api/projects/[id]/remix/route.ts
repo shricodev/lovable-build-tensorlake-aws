@@ -1,4 +1,4 @@
-import { and, enqueueCloneProject, eq, getDb, isNull, or, projectQuotaExceeded, projects } from "@kiln/db";
+import { and, enqueueCloneProject, eq, getDb, isNull, or, projectQuotaExceeded, projects } from "@lovable-diy/db";
 import { NextResponse } from "next/server";
 import { HttpError, route } from "@/server/api";
 

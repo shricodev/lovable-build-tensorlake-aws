@@ -1,4 +1,4 @@
-import { eq, getDb, projects } from "@kiln/db";
+import { eq, getDb, projects } from "@lovable-diy/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { ownedProject, parseBody, route } from "@/server/api";

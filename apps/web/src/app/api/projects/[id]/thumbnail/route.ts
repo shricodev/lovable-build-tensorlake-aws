@@ -1,5 +1,5 @@
-import { and, eq, getDb, projects, versions } from "@kiln/db";
-import { storageKeys } from "@kiln/storage";
+import { and, eq, getDb, projects, versions } from "@lovable-diy/db";
+import { storageKeys } from "@lovable-diy/storage";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { HttpError, ownedProject, parseBody, route } from "@/server/api";

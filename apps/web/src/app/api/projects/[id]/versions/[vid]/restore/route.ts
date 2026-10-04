@@ -1,5 +1,5 @@
-import { getDb, recordVersion } from "@kiln/db";
-import { commitAll, restoreTree } from "@kiln/sandbox";
+import { getDb, recordVersion } from "@lovable-diy/db";
+import { commitAll, restoreTree } from "@lovable-diy/sandbox";
 import { NextResponse } from "next/server";
 import { assertIdle, ownedProject, route } from "@/server/api";
 import { projectSandbox } from "@/server/sandbox";

@@ -1,5 +1,5 @@
 /**
- * Kiln smoke check: render the app once in a DOM shim (happy-dom) and report
+ * Lovable DIY smoke check: render the app once in a DOM shim (happy-dom) and report
  * thrown errors, console.error calls, and whether anything rendered.
  * Much cheaper than a headless browser; catches the usual runtime breakage
  * (bad imports, undefined access during render, hook misuse).

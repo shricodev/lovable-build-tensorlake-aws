@@ -1,4 +1,4 @@
-import type { ProjectSandbox } from "@kiln/sandbox";
+import type { ProjectSandbox } from "@lovable-diy/sandbox";
 import type { BrowserError } from "./tools/index";
 
 export interface CheckResult {
@@ -18,7 +18,7 @@ export async function runChecks(sandbox: ProjectSandbox): Promise<CheckResult> {
   const t0 = performance.now();
   const tsc = await sandbox.exec("npx tsc --noEmit -p . 2>&1", { timeoutSecs: 120, maxOutput: 6000 });
   const build = await sandbox.exec(
-    "npx vite build --outDir /tmp/kiln-build --emptyOutDir --logLevel error 2>&1",
+    "npx vite build --outDir /tmp/lovable-diy-build --emptyOutDir --logLevel error 2>&1",
     { timeoutSecs: 180, maxOutput: 6000 },
   );
   const render = await renderCheck(sandbox);
@@ -32,7 +32,7 @@ export async function runChecks(sandbox: ProjectSandbox): Promise<CheckResult> {
 }
 
 export async function renderCheck(sandbox: ProjectSandbox): Promise<CheckResult["render"]> {
-  const r = await sandbox.exec("node kiln/check.mjs", { timeoutSecs: 60, maxOutput: 20_000 });
+  const r = await sandbox.exec("node lovable-diy/check.mjs", { timeoutSecs: 60, maxOutput: 20_000 });
   const last = r.stdout.trim().split("\n").pop() ?? "";
   try {
     const parsed = JSON.parse(last) as { ok: boolean; rendered: boolean; errors: string[] };

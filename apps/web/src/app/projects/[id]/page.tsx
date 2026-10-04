@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, getDb, messages, runs, sandboxes } from "@kiln/db";
+import { and, asc, desc, eq, getDb, messages, runs, sandboxes } from "@lovable-diy/db";
 import { notFound } from "next/navigation";
 import { Workspace } from "@/components/workspace/workspace";
 import { HttpError, ownedProject } from "@/server/api";

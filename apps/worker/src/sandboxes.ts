@@ -1,7 +1,7 @@
-import { acquireSlot, appendEvent, and, eq, sandboxes, type Db } from "@kiln/db";
-import { ProjectSandbox } from "@kiln/sandbox";
-import { readBaseSnapshot } from "@kiln/sandbox/base";
-import type { Logger } from "@kiln/shared";
+import { acquireSlot, appendEvent, and, eq, sandboxes, type Db } from "@lovable-diy/db";
+import { ProjectSandbox } from "@lovable-diy/sandbox";
+import { readBaseSnapshot } from "@lovable-diy/sandbox/base";
+import type { Logger } from "@lovable-diy/shared";
 
 type Status = (typeof sandboxes.$inferSelect)["status"];
 
@@ -65,7 +65,7 @@ export async function ensureMainSandbox(
   const t0 = performance.now();
   const ps = await ProjectSandbox.createFromSnapshot({
     snapshotId: base.snapshotId,
-    name: `kiln-${projectId.slice(0, 8)}-${Date.now().toString(36)}`,
+    name: `lovable-diy-${projectId.slice(0, 8)}-${Date.now().toString(36)}`,
     log,
     idleTimeoutSecs: Number(process.env.SANDBOX_IDLE_TIMEOUT_SECS ?? 600),
   });

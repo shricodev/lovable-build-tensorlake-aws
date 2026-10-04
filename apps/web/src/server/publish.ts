@@ -1,6 +1,6 @@
 import "server-only";
-import { desc, eq, getDb, publishedSites, versions, type Project } from "@kiln/db";
-import { cacheControlFor, contentTypeFor, storageKeys } from "@kiln/storage";
+import { desc, eq, getDb, publishedSites, versions, type Project } from "@lovable-diy/db";
+import { cacheControlFor, contentTypeFor, storageKeys } from "@lovable-diy/storage";
 import { HttpError } from "./api";
 import { projectSandbox } from "./sandbox";
 import { storage } from "./storage";

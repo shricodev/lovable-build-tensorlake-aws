@@ -1,6 +1,8 @@
-# Kiln
+# Lovable DIY
 
-An AI app builder in the spirit of Lovable, Bolt.new and v0: describe an app, an agent writes it inside an isolated [Tensorlake](https://tensorlake.ai) sandbox, fixes its own errors, and shows a live preview. Iterate by chat, roll back any version, share, and publish.
+A self-hosted app builder inspired by Lovable, Bolt.new, and v0. An agent writes the app in an isolated [Tensorlake](https://tensorlake.ai) sandbox while you follow the live preview. You can edit through chat, restore earlier versions, share projects, and publish static builds.
+
+Built by [@shricodev](https://github.com/shricodev).
 
 ## Local setup
 
@@ -19,14 +21,14 @@ pnpm agent:run --fixture habit-tracker   # one full agent turn (or: pnpm agent:r
 
 Open http://localhost:3000 and sign in with the dev login (any username). Previews are served from `http://<project-id>.preview.localhost:4000` and published sites from `http://<slug>.app.localhost:4000`, each on its own origin (`*.localhost` resolves to 127.0.0.1 in modern browsers).
 
-MinIO console: http://localhost:9001 (kiln / kiln-dev-secret).
+MinIO console: http://localhost:9001 (lovable-diy / lovable-diy-dev-secret).
 
 ## Tests and evals
 
 ```bash
 pnpm test               # unit tests (no credentials needed; what CI runs)
 pnpm test:integration   # real sandbox + Postgres: network egress, secrets, path escapes, crash recovery, quotas
-pnpm eval               # every fixture × Claude Sonnet 5 and GPT-5.5; JSON + HTML report to .kiln/evals and S3
+pnpm eval               # every fixture × Claude Sonnet 5 and GPT-5.5; JSON + HTML report to .lovable-diy/evals and S3
 ```
 
 ## Repository layout
@@ -56,7 +58,7 @@ pnpm eval               # every fixture × Claude Sonnet 5 and GPT-5.5; JSON + H
 
 ## Real S3 setup
 
-1. Create an IAM user (or role) for the app and attach [`infra/s3/iam-policy.json`](infra/s3/iam-policy.json) with `KILN_BUCKET_NAME` replaced. It grants object read/write/delete and list on that one bucket only.
+1. Create an IAM user (or role) for the app and attach [`infra/s3/iam-policy.json`](infra/s3/iam-policy.json) with `LOVABLE_DIY_BUCKET_NAME` replaced. It grants object read/write/delete and list on that one bucket only.
 2. For the one-time bootstrap, temporarily also attach [`infra/s3/iam-policy-setup.json`](infra/s3/iam-policy-setup.json) (create bucket, public-access block, lifecycle, CORS), run `pnpm s3:setup`, then detach it.
 3. In `.env`: remove `S3_ENDPOINT` and `S3_FORCE_PATH_STYLE`, set `S3_BUCKET`, `S3_REGION`, and the key pair.
 

@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, getDb, lt, versions, type Version } from "@kiln/db";
+import { and, desc, eq, getDb, lt, versions, type Version } from "@lovable-diy/db";
 import { HttpError } from "./api";
 
 export async function getVersion(projectId: string, versionId: string): Promise<Version> {

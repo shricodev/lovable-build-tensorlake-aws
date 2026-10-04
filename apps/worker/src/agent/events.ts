@@ -1,4 +1,4 @@
-import type { Usage } from "@kiln/llm";
+import type { Usage } from "@lovable-diy/llm";
 
 /**
  * Everything an agent turn reports as it happens. Phase 3 persists these to

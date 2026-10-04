@@ -1,5 +1,5 @@
 {
-  "name": "@kiln/worker",
+  "name": "@lovable-diy/worker",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,11 +14,11 @@
     "eval": "tsx --env-file-if-exists=../../.env src/cli/eval.ts"
   },
   "dependencies": {
-    "@kiln/db": "workspace:*",
-    "@kiln/llm": "workspace:*",
-    "@kiln/sandbox": "workspace:*",
-    "@kiln/shared": "workspace:*",
-    "@kiln/storage": "workspace:*",
+    "@lovable-diy/db": "workspace:*",
+    "@lovable-diy/llm": "workspace:*",
+    "@lovable-diy/sandbox": "workspace:*",
+    "@lovable-diy/shared": "workspace:*",
+    "@lovable-diy/storage": "workspace:*",
     "pg-boss": "^12.35.0",
     "postgres": "^3.4.9",
     "zod": "^4.6.5"

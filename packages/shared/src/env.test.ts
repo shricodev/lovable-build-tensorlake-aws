@@ -3,7 +3,7 @@ import { authEnv, coreEnv, llmEnv, loadEnv } from "./env";
 
 describe("loadEnv", () => {
   it("applies defaults", () => {
-    const env = loadEnv(coreEnv, { DATABASE_URL: "postgres://u:p@localhost:5432/kiln" });
+    const env = loadEnv(coreEnv, { DATABASE_URL: "postgres://u:p@localhost:5432/lovable-diy" });
     expect(env.NODE_ENV).toBe("development");
     expect(env.LOG_LEVEL).toBe("info");
   });

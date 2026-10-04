@@ -1,5 +1,5 @@
-import type { LlmMessage, UserMessage, UserPart } from "@kiln/llm";
-import type { ProjectSandbox } from "@kiln/sandbox";
+import type { LlmMessage, UserMessage, UserPart } from "@lovable-diy/llm";
+import type { ProjectSandbox } from "@lovable-diy/sandbox";
 
 export interface PriorTurn {
   prompt: string;

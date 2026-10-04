@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import { KilnError, TimeoutError } from "./errors";
+import { LovableDiyError, TimeoutError } from "./errors";
 import { backoffDelay, retry, withTimeout } from "./retry";
 
-const transient = () => new KilnError("flaky", "flaky", { retryable: true });
+const transient = () => new LovableDiyError("flaky", "flaky", { retryable: true });
 
 describe("backoffDelay", () => {
   it("grows exponentially and respects the cap", () => {
@@ -20,7 +20,7 @@ describe("retry", () => {
   });
 
   it("does not retry deterministic errors", async () => {
-    const fn = vi.fn().mockRejectedValue(new KilnError("bad_input", "nope"));
+    const fn = vi.fn().mockRejectedValue(new LovableDiyError("bad_input", "nope"));
     await expect(retry(fn, { baseDelayMs: 1 })).rejects.toThrow("nope");
     expect(fn).toHaveBeenCalledTimes(1);
   });

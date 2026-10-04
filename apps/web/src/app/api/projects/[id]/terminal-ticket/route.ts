@@ -1,4 +1,4 @@
-import { signTicket } from "@kiln/shared";
+import { signTicket } from "@lovable-diy/shared";
 import { NextResponse } from "next/server";
 import { ownedProject, route } from "@/server/api";
 
@@ -7,6 +7,6 @@ export const GET = route<RouteContext<"/api/projects/[id]/terminal-ticket">>(asy
   const p = await ownedProject(user.id, (await ctx.params).id);
   const base = (process.env.GATEWAY_PUBLIC_URL ?? "http://localhost:4000").replace(/^http/, "ws");
   return NextResponse.json({
-    url: `${base}/__kiln/terminal?ticket=${signTicket({ projectId: p.id, userId: user.id })}`,
+    url: `${base}/__lovableDiy/terminal?ticket=${signTicket({ projectId: p.id, userId: user.id })}`,
   });
 });

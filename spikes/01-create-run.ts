@@ -10,7 +10,7 @@ const s = spike("01-create-run");
 await s.run(async () => {
   const sb = s.track(
     (await s.step("create named sandbox (default image)", () =>
-      Sandbox.create({ name: uniq("kiln-spike01"), timeoutSecs: 300 }),
+      Sandbox.create({ name: uniq("lovable-diy-spike01"), timeoutSecs: 300 }),
     ))!,
   );
   s.note("sandboxId", sb.sandboxId);

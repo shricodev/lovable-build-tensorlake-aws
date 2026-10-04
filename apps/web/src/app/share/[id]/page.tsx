@@ -1,4 +1,4 @@
-import { and, eq, getDb, isNull, projects, publishedSites, users } from "@kiln/db";
+import { and, eq, getDb, isNull, projects, publishedSites, users } from "@lovable-diy/db";
 import { ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -22,7 +22,7 @@ async function load(id: string) {
 
 export async function generateMetadata(props: PageProps<"/share/[id]">): Promise<Metadata> {
   const row = await load((await props.params).id);
-  return { title: row ? `${row.project.name} · Kiln` : "Kiln" };
+  return { title: row ? row.project.name : { absolute: "Lovable DIY" } };
 }
 
 /** Public, read-only view of a shared project: live preview, published link, remix. */

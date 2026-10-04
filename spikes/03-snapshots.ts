@@ -29,7 +29,7 @@ async function hit(sb: Sandbox) {
 
 await s.run(async () => {
   let sb = (await s.step("create source", () =>
-    Sandbox.create({ name: uniq("kiln-spike03"), timeoutSecs: 300 }),
+    Sandbox.create({ name: uniq("lovable-diy-spike03"), timeoutSecs: 300 }),
   ))!;
   await sb.writeFile("/home/tl-user/counter.py", enc.encode(counterServer));
   await sb.writeFile("/home/tl-user/marker.txt", enc.encode("before-snapshot"));
@@ -51,7 +51,7 @@ await s.run(async () => {
 
   sb = s.track(
     (await s.step("restore from memory snapshot", () =>
-      Sandbox.create({ snapshotId: mem!.snapshotId, name: uniq("kiln-spike03m") }),
+      Sandbox.create({ snapshotId: mem!.snapshotId, name: uniq("lovable-diy-spike03m") }),
     ))!,
   );
   s.note("afterMemoryRestore.marker", dec.decode(await sb.readFile("/home/tl-user/marker.txt")));
@@ -64,7 +64,7 @@ await s.run(async () => {
 
   sb = s.track(
     (await s.step("restore from filesystem snapshot", () =>
-      Sandbox.create({ snapshotId: fsSnap!.snapshotId, name: uniq("kiln-spike03f") }),
+      Sandbox.create({ snapshotId: fsSnap!.snapshotId, name: uniq("lovable-diy-spike03f") }),
     ))!,
   );
   s.note("afterFsRestore.marker", dec.decode(await sb.readFile("/home/tl-user/marker.txt")));
