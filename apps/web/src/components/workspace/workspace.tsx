@@ -11,6 +11,7 @@ import { ThemeToggle } from "@/components/app/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CODER_MODELS } from "@/lib/models";
 import { ChatPanel, type ChatMessage } from "./chat-panel";
 import { CodePanel } from "./code-panel";
 import { LogsPanel } from "./logs-panel";
@@ -20,12 +21,6 @@ import { ShareDialog } from "./share-dialog";
 import { TerminalPanel } from "./terminal-panel";
 import { useProjectStream, type VersionEvent } from "./use-project-stream";
 import { VersionsSheet } from "./versions-sheet";
-
-const MODELS = [
-  { ref: "anthropic:claude-sonnet-5", label: "Claude Sonnet 5" },
-  { ref: "anthropic:claude-opus-5", label: "Claude Opus 5" },
-  { ref: "openai:gpt-5.5", label: "GPT-5.5" },
-];
 
 /** localStorage that is safe to touch during server rendering. */
 const layoutStorage = {
@@ -51,7 +46,7 @@ export function Workspace(props: WorkspaceProps) {
   const [reloadKey, setReloadKey] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [route, setRoute] = useState("/");
-  const [model, setModel] = useState(MODELS[0]!.ref);
+  const [model, setModel] = useState<string>(CODER_MODELS[0].ref);
   const [terminalOpened, setTerminalOpened] = useState(false);
   const [versionsKey, setVersionsKey] = useState(0);
   const [exporting, setExporting] = useState(false);
@@ -68,7 +63,7 @@ export function Workspace(props: WorkspaceProps) {
 
   useEffect(() => {
     const saved = localStorage.getItem("lovable-diy-model");
-    if (saved && MODELS.some((m) => m.ref === saved)) setModel(saved);
+    if (saved && CODER_MODELS.some((model) => model.ref === saved)) setModel(saved);
   }, []);
 
   const stream = useProjectStream(
@@ -220,7 +215,7 @@ export function Workspace(props: WorkspaceProps) {
             className="h-8 rounded-md border bg-background px-2 text-xs"
             aria-label="Model"
           >
-            {MODELS.map((m) => (
+            {CODER_MODELS.map((m) => (
               <option key={m.ref} value={m.ref}>
                 {m.label}
               </option>

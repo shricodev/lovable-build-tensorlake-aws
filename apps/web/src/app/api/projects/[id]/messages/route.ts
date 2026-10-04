@@ -1,14 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { isCoderModel } from "@/lib/models";
 import { ownedProject, parseBody, route } from "@/server/api";
 import { startTurn } from "@/server/runs";
 
 const Body = z.object({
   prompt: z.string().trim().min(1).max(8000),
-  model: z
-    .string()
-    .regex(/^(anthropic|openai):[\w.-]+$/)
-    .optional(),
+  model: z.string().refine(isCoderModel, "Unsupported model").optional(),
 });
 
 export const POST = route<RouteContext<"/api/projects/[id]/messages">>(async (req, ctx, user) => {
