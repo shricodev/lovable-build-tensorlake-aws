@@ -19,6 +19,7 @@ jobs:
       - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm typecheck
+      - run: pnpm build
       # Unit tests only. Sandbox/LLM integration tests (*.integration.test.ts)
       # need real credentials and run separately with `pnpm test:integration`.
       - run: pnpm test

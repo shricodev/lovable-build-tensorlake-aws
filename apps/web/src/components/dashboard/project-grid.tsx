@@ -4,11 +4,19 @@ import { formatDistanceToNow } from "date-fns";
 import { Copy, MoreHorizontal, Pencil, Search, Trash2, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { type FormEvent, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { pillFor, StatusPill } from "@/components/app/status-pill";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export interface ProjectSummary {
   id: string;
@@ -29,20 +38,28 @@ export interface ProjectSummary {
 export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
   const router = useRouter();
   const [q, setQ] = useState("");
+  const [renaming, setRenaming] = useState<ProjectSummary | null>(null);
+  const [renameName, setRenameName] = useState("");
+  const [deleting, setDeleting] = useState<ProjectSummary | null>(null);
+  const [pending, setPending] = useState(false);
   const shown = useMemo(
     () => projects.filter((p) => p.name.toLowerCase().includes(q.trim().toLowerCase())),
     [projects, q],
   );
 
-  async function rename(p: ProjectSummary) {
-    const name = window.prompt("Rename project", p.name)?.trim();
-    if (!name || name === p.name) return;
-    const res = await fetch(`/api/projects/${p.id}`, {
+  async function rename(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const name = renameName.trim();
+    if (!renaming || !name || name === renaming.name) return;
+    setPending(true);
+    const res = await fetch(`/api/projects/${renaming.id}`, {
       method: "PATCH",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ name }),
     });
+    setPending(false);
     if (!res.ok) return toast.error("Couldn't rename the project");
+    setRenaming(null);
     router.refresh();
   }
 
@@ -53,10 +70,13 @@ export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
     router.push(`/projects/${data.id}`);
   }
 
-  async function remove(p: ProjectSummary) {
-    if (!window.confirm(`Delete "${p.name}"? Its sandbox will be shut down.`)) return;
-    const res = await fetch(`/api/projects/${p.id}`, { method: "DELETE" });
+  async function remove() {
+    if (!deleting) return;
+    setPending(true);
+    const res = await fetch(`/api/projects/${deleting.id}`, { method: "DELETE" });
+    setPending(false);
     if (!res.ok) return toast.error("Couldn't delete the project");
+    setDeleting(null);
     toast.success("Project deleted");
     router.refresh();
   }
@@ -143,13 +163,18 @@ export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => void rename(p)}>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setRenaming(p);
+                          setRenameName(p.name);
+                        }}
+                      >
                         <Pencil className="size-4" /> Rename
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => void duplicate(p)}>
                         <Copy className="size-4" /> Duplicate
                       </DropdownMenuItem>
-                      <DropdownMenuItem variant="destructive" onClick={() => void remove(p)}>
+                      <DropdownMenuItem variant="destructive" onClick={() => setDeleting(p)}>
                         <Trash2 className="size-4" /> Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -160,6 +185,56 @@ export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
           ))}
         </div>
       )}
+      <Dialog open={!!renaming} onOpenChange={(open) => !open && !pending && setRenaming(null)}>
+        <DialogContent>
+          <form className="contents" onSubmit={rename}>
+            <DialogHeader>
+              <DialogTitle>Rename project</DialogTitle>
+              <DialogDescription>Choose a name that will be easy to find later.</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-2">
+              <Label htmlFor="project-name">Name</Label>
+              <Input
+                id="project-name"
+                value={renameName}
+                onChange={(e) => setRenameName(e.target.value)}
+                maxLength={80}
+                autoFocus
+              />
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setRenaming(null)} disabled={pending}>
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={pending || !renameName.trim() || renameName.trim() === renaming?.name}
+              >
+                {pending ? "Saving..." : "Save"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!deleting} onOpenChange={(open) => !open && !pending && setDeleting(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete project?</DialogTitle>
+            <DialogDescription>
+              {deleting?.name} and its sandbox will be removed. This cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setDeleting(null)} disabled={pending}>
+              Cancel
+            </Button>
+            <Button type="button" variant="destructive" onClick={() => void remove()} disabled={pending}>
+              {pending ? "Deleting..." : "Delete"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
