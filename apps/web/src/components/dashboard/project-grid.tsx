@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
-import { Copy, MoreHorizontal, Pencil, Search, Trash2 } from "lucide-react";
+import { Copy, MoreHorizontal, Pencil, Search, Trash2, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -78,63 +78,88 @@ export function ProjectGrid({ projects }: { projects: ProjectSummary[] }) {
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search"
-            className="pl-8"
+            placeholder="Search projects"
+            className="px-8"
             aria-label="Search projects"
           />
+          {q && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute top-1/2 right-0.5 size-8 -translate-y-1/2"
+              onClick={() => setQ("")}
+              aria-label="Clear search"
+            >
+              <X className="size-3.5" />
+            </Button>
+          )}
         </div>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {shown.map((p) => (
-          <Card
-            key={p.id}
-            className="group relative gap-0 overflow-hidden p-0 transition-colors hover:border-foreground/20"
-          >
-            <Link href={`/projects/${p.id}`} className="absolute inset-0 z-0" aria-label={`Open ${p.name}`} />
-            <div className="grid aspect-video place-items-center overflow-hidden border-b bg-muted text-3xl font-semibold text-muted-foreground/60">
-              {p.hasThumbnail ? (
-                <img
-                  src={`/api/projects/${p.id}/thumbnail?v=${encodeURIComponent(p.updatedAt)}`}
-                  alt=""
-                  className="size-full object-cover object-top"
-                  loading="lazy"
-                />
-              ) : (
-                p.name.slice(0, 1).toUpperCase()
-              )}
-            </div>
-            <div className="flex items-start justify-between gap-2 p-4">
-              <div className="min-w-0 space-y-1">
-                <div className="truncate font-medium">{p.name}</div>
-                <div className="text-xs text-muted-foreground">
-                  Edited {formatDistanceToNow(new Date(p.updatedAt), { addSuffix: true })}
+      {shown.length === 0 ? (
+        <div className="rounded-lg border border-dashed px-6 py-12 text-center" role="status">
+          <p className="text-sm text-muted-foreground">No projects match "{q.trim()}".</p>
+          <Button type="button" variant="link" size="sm" onClick={() => setQ("")}>
+            Clear search
+          </Button>
+        </div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {shown.map((p) => (
+            <Card
+              key={p.id}
+              className="group relative gap-0 overflow-hidden p-0 transition-colors hover:border-foreground/20"
+            >
+              <Link
+                href={`/projects/${p.id}`}
+                className="absolute inset-0 z-0"
+                aria-label={`Open ${p.name}`}
+              />
+              <div className="grid aspect-video place-items-center overflow-hidden border-b bg-muted text-3xl font-semibold text-muted-foreground/60">
+                {p.hasThumbnail ? (
+                  <img
+                    src={`/api/projects/${p.id}/thumbnail?v=${encodeURIComponent(p.updatedAt)}`}
+                    alt=""
+                    className="size-full object-cover object-top"
+                    loading="lazy"
+                  />
+                ) : (
+                  p.name.slice(0, 1).toUpperCase()
+                )}
+              </div>
+              <div className="flex items-start justify-between gap-2 p-4">
+                <div className="min-w-0 space-y-1">
+                  <div className="truncate font-medium">{p.name}</div>
+                  <div className="text-xs text-muted-foreground">
+                    Edited {formatDistanceToNow(new Date(p.updatedAt), { addSuffix: true })}
+                  </div>
+                </div>
+                <div className="relative z-10 flex items-center gap-1">
+                  <StatusPill status={pillFor(p.sandboxStatus, p.busy)} />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon" className="size-7" aria-label="Project actions">
+                        <MoreHorizontal className="size-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => void rename(p)}>
+                        <Pencil className="size-4" /> Rename
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => void duplicate(p)}>
+                        <Copy className="size-4" /> Duplicate
+                      </DropdownMenuItem>
+                      <DropdownMenuItem variant="destructive" onClick={() => void remove(p)}>
+                        <Trash2 className="size-4" /> Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
-              <div className="relative z-10 flex items-center gap-1">
-                <StatusPill status={pillFor(p.sandboxStatus, p.busy)} />
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="size-7" aria-label="Project actions">
-                      <MoreHorizontal className="size-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => void rename(p)}>
-                      <Pencil className="size-4" /> Rename
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => void duplicate(p)}>
-                      <Copy className="size-4" /> Duplicate
-                    </DropdownMenuItem>
-                    <DropdownMenuItem variant="destructive" onClick={() => void remove(p)}>
-                      <Trash2 className="size-4" /> Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
